@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AgriYield AI | Smart Farming Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/dark_farm.css">
+  <link rel="stylesheet" href="assets/css/modern_green_dashboard.css">
+  <link rel="stylesheet" href="assets/css/language.css">
+</head>
+<body class="dashboard-page">
+<header class="site-header">
+  <a class="brand" href="index.html">
+    <span class="brand-mark">🌾</span>
+    <span>AgriYield <b>AI</b><small>SMART FARMING PLATFORM</small></span>
+  </a>
+  <nav class="main-nav" aria-label="Main navigation">
+    <a class="active" href="index.html">⌂ <span>Dashboard</span></a>
+    <a href="predict.html">↗ <span>Predict Yield</span></a>
+    <a href="weather.html">☀ <span>Weather</span></a>
+    <a href="irrigation.html">💧 <span>Irrigation</span></a>
+    <a href="market.html">▥ <span>Market Prices</span></a>
+    <a href="profit.html">₹ <span>Profit Calculator</span></a>
+    <a href="sowing.html">▦ <span>Sowing Calendar</span></a>
+    <a href="weather-alerts.html">⚠ <span>Weather Alerts</span></a>
+    <a href="schemes.html">▤ <span>Government Schemes</span></a>
+    <a href="chatbot.html">🌱 <span>Farming Copilot</span></a>
+    <a href="history.html">◷ <span>History</span></a>
+    <div class="account-menu">
+      <span id="account-name">Guest</span>
+      <button type="button" id="logout-button">Logout</button>
+    </div>
+  </nav>
+</header>
+
+<main class="dashboard-shell modern-dashboard">
+ 
+<section class="dashboard-topbar" aria-label="Dashboard toolbar">
+  <label class="dashboard-search">
+    <span aria-hidden="true">⌕</span>
+    <input
+      id="dashboard-search-input"
+      type="search"
+      placeholder="Search crop, scheme, or information…"
+      aria-label="Search dashboard features"
+    >
+    <div
+      class="dashboard-search-results"
+      id="dashboard-search-results"
+      role="listbox"
+      aria-label="Search results"
+      hidden
+    ></div>
+  </label>
+
+  <!-- Language selector immediately after search -->
+  <div class="dashboard-language">
+    <span aria-hidden="true">🌐</span>
+    <label for="dashboardLanguage">Language</label>
+    <select id="dashboardLanguage" aria-label="Select language">
+      <option value="en">English</option>
+      <option value="te">తెలుగు</option>
+      <option value="hi">हिन्दी</option>
+    </select>
+  </div>
+
+  <div class="dashboard-topbar-right">
+    <span class="topbar-leaf" aria-hidden="true">✳</span>
+    <div class="dashboard-date">
+      <span aria-hidden="true">▦</span> Your farming workspace
+    </div>
+  </div>
+</section>
+
+
+  <section class="dashboard-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-copy">
+      <div class="live-pill"><span></span> AGRIYIELD AI • SMART FARMING</div>
+      <h1>Welcome back, Guna!<br><em>Let’s grow smarter.</em></h1>
+      <p>Your farm, weather, crop predictions and planning tools — connected in one place.</p>
+      <div class="hero-actions">
+        <a class="button button-light" href="predict.html">✦ Predict crop yield <span>↗</span></a>
+        <a class="button button-glass" href="weather.html">Explore weather →</a>
+      </div>
+      <div class="hero-footnote">🌱 Useful estimates. Better-informed decisions.</div>
+    </div>
+    <div class="hero-stat-card">
+      <span class="stat-icon">☀️</span>
+      <small>YOUR FARMING TOOLKIT</small>
+      <strong>One place.</strong>
+      <b>Many smarter decisions.</b>
+      <div class="stat-mini-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <span class="stat-caption">Plan • Predict • Review</span>
+    </div>
+  </section>
+
+  <section class="dashboard-metrics dashboard-feature-shortcuts" aria-label="Popular farming tools">
+    <a class="metric-card" href="predict.html"><span class="metric-icon metric-green">▥</span><div><small>AI & ANALYTICS</small><strong>Predict Yield</strong><p>Estimate crop yield</p></div><span class="metric-arrow">↗</span></a>
+    <a class="metric-card" href="weather.html"><span class="metric-icon metric-blue">☀</span><div><small>WEATHER TOOLS</small><strong>Weather</strong><p>Live conditions and forecast</p></div><span class="metric-arrow">↗</span></a>
+    <a class="metric-card" href="irrigation.html"><span class="metric-icon metric-cyan">💧</span><div><small>WATER MANAGEMENT</small><strong>Irrigation</strong><p>Review water guidance</p></div><span class="metric-arrow">↗</span></a>
+    <a class="metric-card" href="market.html"><span class="metric-icon metric-amber">▥</span><div><small>MARKET WATCH</small><strong>Market Prices</strong><p>Check available prices</p></div><span class="metric-arrow">↗</span></a>
+    <a class="metric-card" href="profit.html"><span class="metric-icon metric-purple">₹</span><div><small>FARM PLANNING</small><strong>Profit Calculator</strong><p>Estimate cost and profit</p></div><span class="metric-arrow">↗</span></a>
+    <a class="metric-card" href="sowing.html"><span class="metric-icon metric-pink">▦</span><div><small>SEASON PLANNER</small><strong>Sowing Calendar</strong><p>Plan when to sow</p></div><span class="metric-arrow">↗</span></a>
+    <a class="metric-card" href="schemes.html"><span class="metric-icon metric-blue">▤</span><div><small>FARMER SUPPORT</small><strong>Government Schemes</strong><p>Explore schemes and benefits</p></div><span class="metric-arrow">↗</span></a>
+    <a class="metric-card" href="farmer-profile.html"><span class="metric-icon metric-green">♙</span><div><small>YOUR FARM</small><strong>Farmer Profile</strong><p>Manage your farm details</p></div><span class="metric-arrow">↗</span></a>
+  </section>
+
+  <section class="dashboard-weather glass-panel" aria-labelledby="local-weather-title">
+    <div class="weather-panel-heading">
+      <div><span class="panel-kicker">WEATHER NEAR YOU</span><h2 id="local-weather-title">Your local weather</h2><p id="dashboard-weather-status" role="status">Requesting location permission to check local weather…</p></div>
+      <button type="button" id="dashboard-weather-retry" class="weather-retry-button">↻ Detect location</button>
+    </div>
+    <div id="dashboard-weather-content" class="dashboard-weather-content">
+      <div class="weather-loading"><span class="weather-loader"></span><span>Waiting for location permission…</span></div>
+    </div>
+    <p class="weather-privacy-note">Your browser asks for permission. If you decline, you can still enter a city on the Weather page. Location is used only to request the forecast.</p>
+  </section>
+
+  <section class="glass-panel weather-alerts-panel" aria-labelledby="weather-alerts-title">
+    <div class="panel-heading">
+      <div><span class="panel-kicker">FARM WEATHER MONITOR</span><h2 id="weather-alerts-title">Weather Behaviour & Alerts</h2><p>Understand upcoming weather conditions and prepare your farm.</p></div>
+      <a class="text-link" href="weather-alerts.html">View details ↗</a>
+    </div>
+    <p id="weather-alerts-status" role="status" aria-live="polite">Loading weather outlook…</p>
+    <div class="weather-behaviour-grid">
+      <article class="weather-behaviour-card"><span class="weather-behaviour-icon">🌡️</span><h3>Heat Behaviour</h3><p id="weather-heat-value">—</p><span id="weather-heat-status" class="weather-risk-label">Waiting for forecast</span></article>
+      <article class="weather-behaviour-card"><span class="weather-behaviour-icon">🌧️</span><h3>Rain Behaviour</h3><p id="weather-rain-value">—</p><span id="weather-rain-status" class="weather-risk-label">Waiting for forecast</span></article>
+      <article class="weather-behaviour-card"><span class="weather-behaviour-icon">💨</span><h3>Wind Behaviour</h3><p id="weather-wind-value">—</p><span id="weather-wind-status" class="weather-risk-label">Waiting for forecast</span></article>
+      <article class="weather-behaviour-card weather-reminder-card"><span class="weather-behaviour-icon">🔔</span><h3>Farm Weather Reminder</h3><p id="weather-reminder">Checking the forecast for potential risks…</p><a href="weather-alerts.html">Review weather alerts →</a></article>
+    </div>
+    <h3 class="weather-outlook-title">Five-day weather outlook</h3>
+    <div id="dashboard-weather-outlook" class="weather-outlook-grid"><p>Waiting for forecast data…</p></div>
+    <p class="weather-alerts-disclaimer">Forecast-based screening only. Conditions can change; follow official weather warnings and local agricultural advice.</p>
+  </section>
+
+  <section class="dashboard-main-grid">
+    <article class="glass-panel chart-panel">
+      <div class="panel-heading"><div><span class="panel-kicker">PREDICTION ACTIVITY</span><h2>Your recent yield estimates</h2><p>Loaded from your saved prediction history.</p></div><a class="text-link" href="history.html">View history ↗</a></div>
+      <div class="chart-legend"><span><i></i> Estimated yield (tonnes/hectare)</span><small id="chart-status">Loading history…</small></div>
+      <div id="yield-chart" class="yield-chart" aria-label="Chart of recent predicted yields"><div class="chart-placeholder">Your saved predictions will appear here.</div></div>
+      <div class="chart-foot"><span>Recent predictions</span><span>Actual results may vary by field conditions.</span></div>
+    </article>
+    <article class="glass-panel quick-panel">
+      <div class="panel-heading"><div><span class="panel-kicker">QUICK ACCESS</span><h2>Farm tools</h2></div><span class="round-leaf">✳</span></div>
+      <a class="quick-link" href="irrigation.html"><span class="quick-icon water">≈</span><span><b>Irrigation assistant</b><small>Review water guidance</small></span><strong>→</strong></a>
+      <a class="quick-link" href="market.html"><span class="quick-icon market">₹</span><span><b>Market prices</b><small>Browse available records</small></span><strong>→</strong></a>
+      <a class="quick-link" href="profit.html"><span class="quick-icon market">₹</span><span><b>Profit calculator</b><small>Estimate costs and returns</small></span><strong>→</strong></a>
+      <a class="quick-link" href="history.html"><span class="quick-icon history">↗</span><span><b>Prediction history</b><small>Review past estimates</small></span><strong>→</strong></a>
+      <div class="quick-note">💡 <span>Combine these tools with local agricultural expertise.</span></div>
+    </article>
+  </section>
+
+
+  <div class="dashboard-disclaimer">AgriYield AI provides decision-support estimates. Weather forecasts and yield predictions are not guarantees; check field conditions and trusted local advice.</div>
+</main>
+
+<button class="agri-chat-launcher" id="agri-chat-launcher" type="button"
+        aria-label="Open AgriYield farming assistant" aria-expanded="false" aria-controls="agri-chat-panel">
+  <span class="chat-launcher-orbit" aria-hidden="true"></span>
+  <span class="chat-launcher-emoji" aria-hidden="true">🌱</span>
+  <span class="chat-launcher-label">Ask Agri AI</span>
+</button>
+<aside class="agri-chat-panel" id="agri-chat-panel" aria-label="AgriYield farming assistant" hidden>
+  <div class="agri-chat-header">
+    <div class="agri-chat-avatar" aria-hidden="true">🌾</div>
+    <div><strong>Agri AI Assistant</strong><span><i></i> Your farming companion</span></div>
+    <button class="agri-chat-close" id="agri-chat-close" type="button" aria-label="Close assistant">×</button>
+  </div>
+  <div class="agri-chat-body">
+    <div class="agri-chat-welcome-mark" aria-hidden="true">🌿</div>
+    <h3>Namaste, farmer!</h3>
+    <p>Your smart farming assistant is getting ready. Soon, you’ll be able to ask questions about crops, weather, soil and farm planning here.</p>
+    <div class="agri-chat-suggestions" aria-label="Suggested questions">
+      <a href="predict.html">How can I estimate crop yield? <span>↗</span></a>
+      <a href="weather.html">Where can I check my local weather? <span>↗</span></a>
+      <a href="schemes.html">What farmer schemes are available? <span>↗</span></a>
+    </div>
+    <p class="agri-chat-status-note">Chat responses will be connected when the chatbot feature is added.</p>
+  </div>
+</aside>
+<footer class="site-footer"><span>🌾 AgriYield AI</span><span>Smart farming assistant · Built for informed decisions</span></footer>
+<script src="assets/js/dashboard.js"></script>
+<script src="assets/js/dashboard_weather.js"></script>
+<script src="assets/js/account.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("dashboard-search-input");
+  const results = document.getElementById("dashboard-search-results");
+  if (!input || !results) return;
+
+  const features = [
+    { title: "Predict Yield", href: "predict.html", description: "Estimate crop yield with the prediction tool", keywords: "crop prediction ml ai estimate production harvest tons per acre" },
+    { title: "Weather", href: "weather.html", description: "Check current conditions and forecast", keywords: "rain rainfall temperature forecast humidity wind climate" },
+    { title: "Irrigation", href: "irrigation.html", description: "Review irrigation and water guidance", keywords: "water watering moisture irrigation schedule" },
+    { title: "Market Prices", href: "market.html", description: "Explore available crop market prices", keywords: "mandi rates paddy maize chilli groundnut price selling" },
+    { title: "Profit Calculator", href: "profit.html", description: "Estimate farming costs and returns", keywords: "income expenses budget profit loss revenue cost" },
+    { title: "Sowing Calendar", href: "sowing.html", description: "Plan sowing and seasonal activities", keywords: "planting seed season crop calendar date" },
+    { title: "Government Schemes", href: "schemes.html", description: "Explore farmer schemes and benefits", keywords: "government subsidy support yojana benefits eligibility" },
+    { title: "Farmer Profile", href: "farmer-profile.html", description: "Manage your farm and personal details", keywords: "profile farmer land location acreage crop account" },
+    { title: "Soil Records", href: "soil.html", description: "Review your soil information", keywords: "soil records nutrients nitrogen phosphorus potassium ph" },
+    { title: "Prediction History", href: "history.html", description: "Review saved crop yield estimates", keywords: "history previous past saved results predictions" },
+    { title: "Weather Alerts", href: "weather-alerts.html", description: "Review weather risks and reminders", keywords: "alerts warning heat rain storm reminder risk" }
+  ];
+
+  const normalize = value => value.toLocaleLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+  function closeResults() {
+    results.hidden = true;
+    results.replaceChildren();
+    input.setAttribute("aria-expanded", "false");
+  }
+  function renderResults(query) {
+    const q = normalize(query);
+    results.replaceChildren();
+    if (!q) { closeResults(); return; }
+    const matches = features.filter(item => normalize(`${item.title} ${item.description} ${item.keywords}`).includes(q));
+    if (!matches.length) {
+      const empty = document.createElement("div");
+      empty.className = "dashboard-search-empty";
+      empty.textContent = `No farming tools found for “${query}”. Try weather, yield, market, soil, or schemes.`;
+      results.appendChild(empty);
+    } else {
+      matches.slice(0, 7).forEach(item => {
+        const link = document.createElement("a");
+        link.className = "dashboard-search-result";
+        link.href = item.href;
+        link.setAttribute("role", "option");
+        const title = document.createElement("strong");
+        title.textContent = item.title;
+        const description = document.createElement("span");
+        description.textContent = item.description;
+        const arrow = document.createElement("b");
+        arrow.setAttribute("aria-hidden", "true");
+        arrow.textContent = "↗";
+        link.append(title, description, arrow);
+        results.appendChild(link);
+      });
+    }
+    results.hidden = false;
+    input.setAttribute("aria-expanded", "true");
+  }
+  input.setAttribute("aria-controls", "dashboard-search-results");
+  input.setAttribute("aria-expanded", "false");
+  input.addEventListener("input", () => renderResults(input.value));
+  input.addEventListener("keydown", event => {
+    if (event.key === "Escape") { closeResults(); input.blur(); }
+    if (event.key === "Enter" && !results.hidden) {
+      const first = results.querySelector("a.dashboard-search-result");
+      if (first) { event.preventDefault(); window.location.href = first.href; }
+    }
+    if (event.key === "ArrowDown" && !results.hidden) {
+      const first = results.querySelector("a.dashboard-search-result");
+      if (first) { event.preventDefault(); first.focus(); }
+    }
+  });
+  document.addEventListener("click", event => {
+    if (!event.target.closest(".dashboard-search")) closeResults();
+  });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const launcher = document.getElementById("agri-chat-launcher");
+  const panel = document.getElementById("agri-chat-panel");
+  const closeButton = document.getElementById("agri-chat-close");
+  if (!launcher || !panel || !closeButton) return;
+  const setOpen = (open) => {
+    panel.hidden = !open;
+    launcher.setAttribute("aria-expanded", String(open));
+    if (open) closeButton.focus();
+    else launcher.focus();
+  };
+  launcher.addEventListener("click", () => setOpen(panel.hidden));
+  closeButton.addEventListener("click", () => setOpen(false));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !panel.hidden) setOpen(false);
+  });
+});
+</script>
+  <script src="assets/js/language.js"></script>
+  
+
+</body>
+</html>

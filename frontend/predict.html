@@ -1,0 +1,412 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Predict Crop Yield | AgriYield AI</title>
+
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/dark_farm.css">
+  <link rel="stylesheet" href="assets/css/forest_glass_features.css">
+  <link rel="stylesheet" href="assets/css/language.css">
+</head>
+
+<body class="prediction-page">
+
+<header class="site-header">
+  <a class="brand" href="index.html">
+    <span class="brand-mark">🌾</span>
+    <span>
+      AgriYield <b>AI</b>
+      <small>SMART FARMING PLATFORM</small>
+    </span>
+  </a>
+
+  <nav class="main-nav" aria-label="Main navigation">
+    <a href="index.html">Dashboard</a>
+    <a href="predict.html" class="active" aria-current="page">Predict Yield</a>
+    <a href="weather.html">Weather</a>
+    <a href="irrigation.html">Irrigation</a>
+    <a href="market.html">Market Prices</a>
+    <a href="profit.html">Profit Calculator</a>
+    <a href="sowing.html">Sowing Calendar</a>
+    <a href="schemes.html">Government Schemes</a>
+    <a href="history.html">History</a>
+    <a href="weather-alerts.html">Weather Alerts</a>
+    <a href="chatbot.html">Agri AI Chatbot</a>
+  </nav>
+</header>
+
+<main class="prediction-shell">
+
+  <!-- Hero -->
+  <section class="prediction-hero">
+    <div class="prediction-hero-shade"></div>
+
+    <div class="prediction-hero-copy">
+      <span class="live-pill">✦ AI-POWERED CROP ESTIMATOR</span>
+
+      <h1>Make your next<br><em>season count.</em></h1>
+
+      <p>
+        Enter your crop, cultivated area, weather and soil information
+        to estimate your crop yield.
+      </p>
+
+      <div class="hero-footnote">
+        ✓ Field-based estimate &nbsp; ✓ Saved prediction history
+      </div>
+    </div>
+
+    <div class="hero-orbit">
+      <div class="orbit-ring"></div>
+      <div class="orbit-center">🌾</div>
+      <span class="orbit-tag tag-one">RAIN</span>
+      <span class="orbit-tag tag-two">SOIL</span>
+      <span class="orbit-tag tag-three">CROP</span>
+    </div>
+  </section>
+
+  <div class="prediction-layout">
+
+    <!-- Prediction form -->
+    <section class="prediction-form-card">
+
+      <div class="form-card-heading">
+        <span class="step-number">01</span>
+        <div>
+          <span class="panel-kicker">FIELD DETAILS</span>
+          <h2>Tell us about your field</h2>
+          <p>Enter measured values where possible.</p>
+        </div>
+      </div>
+
+      <!-- Weather autofill -->
+      <div class="weather-autofill">
+        <button type="button" id="autoFillWeatherBtn" class="btn btn-success">
+          <i class="fas fa-location-crosshairs"></i>
+          Auto-fill from Location
+        </button>
+
+        <p id="autoFillWeatherStatus" role="status" aria-live="polite">
+          Click to fetch local weather data.
+        </p>
+      </div>
+
+      <form id="predictionForm" class="prediction-form">
+
+        <!-- Crop -->
+        <div class="field-block field-wide">
+          <label for="crop">Which crop are you growing?</label>
+
+          <select id="crop" name="crop" required>
+            <option value="Rice">Rice</option>
+            <option value="Wheat">Wheat</option>
+            <option value="Maize">Maize</option>
+            <option value="Cotton">Cotton</option>
+            <option value="Soybean">Soybean</option>
+          </select>
+        </div>
+
+        <!-- Cultivated area -->
+        <div class="field-block">
+          <label for="area">Cultivated area</label>
+
+          <input
+            type="number"
+            id="area"
+            name="area"
+            min="0.01"
+            max="1000000"
+            step="0.01"
+            placeholder="e.g. 2.5"
+            required
+          >
+
+          <small>Enter the total area you plan to cultivate.</small>
+        </div>
+
+        <!-- Area unit -->
+        <div class="field-block">
+          <label for="area_unit">Area unit</label>
+
+          <select id="area_unit" name="area_unit" required>
+            <option value="acres" selected>Acres</option>
+            <option value="hectares">Hectares</option>
+          </select>
+
+          <small>Used to calculate your estimated total harvest.</small>
+        </div>
+
+        <!-- Rainfall -->
+        <div class="field-block">
+          <label for="rainfall">Rainfall <span>mm</span></label>
+
+          <input
+            type="number"
+            id="rainfall"
+            name="rainfall"
+            min="0"
+            max="10000"
+            step="0.1"
+            placeholder="e.g. 1200"
+            required
+          >
+
+          <small>Rainfall during the crop-growing period, in millimetres.</small>
+
+          <div class="recent-rainfall-option">
+            <p id="recentRainfallInfo">
+              Use your location button to retrieve recent rainfall.
+            </p>
+
+            <button
+              type="button"
+              id="useRecentRainfallBtn"
+              class="btn btn-success"
+              disabled
+            >
+              Use recent 30-day rainfall
+            </button>
+
+            <small>
+              Recent rainfall is a reference, not the full-season total.
+            </small>
+          </div>
+        </div>
+
+        <!-- Temperature -->
+        <div class="field-block">
+          <label for="temperature">Temperature <span>°C</span></label>
+
+          <input
+            type="number"
+            id="temperature"
+            name="temperature"
+            min="-10"
+            max="60"
+            step="0.1"
+            placeholder="e.g. 28"
+            required
+          >
+
+          <small>Temperature in degrees Celsius.</small>
+        </div>
+
+        <!-- Humidity -->
+        <div class="field-block">
+          <label for="humidity">Humidity <span>%</span></label>
+
+          <input
+            type="number"
+            id="humidity"
+            name="humidity"
+            min="0"
+            max="100"
+            step="0.1"
+            placeholder="e.g. 75"
+            required
+          >
+
+          <small>Relative humidity, from 0% to 100%.</small>
+        </div>
+
+        <!-- Soil pH -->
+        <div class="field-block">
+          <label for="soil_ph">Soil pH <span>0–14</span></label>
+
+          <input
+            type="number"
+            id="soil_ph"
+            name="soil_ph"
+            min="0"
+            max="14"
+            step="0.1"
+            placeholder="e.g. 6.5"
+            required
+          >
+
+          <small>Enter the value from your soil test if available.</small>
+        </div>
+
+        <!-- Nutrients -->
+        <div class="field-divider">
+          <span>Soil nutrients</span>
+          <small>Use your soil test if available.</small>
+        </div>
+
+        <div class="field-block">
+          <label for="nitrogen">Nitrogen <span>N</span></label>
+
+          <input
+            type="number"
+            id="nitrogen"
+            name="nitrogen"
+            min="0"
+            max="10000"
+            step="0.1"
+            placeholder="e.g. 80"
+            value="80"
+            required
+          >
+
+          <small>Nitrogen value in the dataset's expected unit.</small>
+        </div>
+
+        <div class="field-block">
+          <label for="phosphorus">Phosphorus <span>P</span></label>
+
+          <input
+            type="number"
+            id="phosphorus"
+            name="phosphorus"
+            min="0"
+            max="10000"
+            step="0.1"
+            placeholder="e.g. 40"
+            value="40"
+            required
+          >
+
+          <small>Phosphorus value in the dataset's expected unit.</small>
+        </div>
+
+        <div class="field-block">
+          <label for="potassium">Potassium <span>K</span></label>
+
+          <input
+            type="number"
+            id="potassium"
+            name="potassium"
+            min="0"
+            max="10000"
+            step="0.1"
+            placeholder="e.g. 40"
+            value="40"
+            required
+          >
+
+          <small>Potassium value in the dataset's expected unit.</small>
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="button button-primary submit-prediction"
+        >
+          ✦ Estimate crop yield <span>→</span>
+        </button>
+
+      </form>
+
+      <!-- Loading -->
+      <div
+        id="loading"
+        class="loading-state d-none"
+        role="status"
+        aria-live="polite"
+      >
+        <span class="loading-spinner"></span>
+        <p>Calculating your estimate…</p>
+      </div>
+
+    </section>
+
+    <!-- Prediction result -->
+    <section
+      id="resultCard"
+      class="prediction-result d-none"
+      aria-live="polite"
+    >
+      <div class="result-symbol">✦</div>
+
+      <div class="result-content">
+        <span class="panel-kicker">ESTIMATE COMPLETE</span>
+        <h2>Your prediction result</h2>
+
+        <p class="result-crop">
+          Crop: <strong id="resCrop"></strong>
+        </p>
+
+        <div class="yield-number">
+          <strong id="resYield"></strong>
+          <span id="resUnit"></span>
+        </div>
+
+        <p>
+          <strong>Cultivated area:</strong>
+          <span id="resArea">—</span>
+        </p>
+
+        <p>
+          <strong>Estimated total harvest:</strong>
+          <span id="resWeight">—</span> kg
+        </p>
+
+        <p>
+          <strong>Estimated 50 kg bags:</strong>
+          <span id="resBags">—</span>
+        </p>
+
+        <p class="result-disclaimer">
+          This is an approximate estimate, not a guaranteed harvest.
+          Actual yield depends on weather, crop variety, soil, irrigation,
+          pests, and farming practices.
+        </p>
+
+        <a href="history.html" class="result-history-link">
+          View saved predictions ↗
+        </a>
+      </div>
+
+      <div class="result-decoration">🌱</div>
+    </section>
+
+    <!-- Side information -->
+    <aside class="prediction-side">
+
+      <article class="side-tip">
+        <span class="tip-icon">💡</span>
+        <span class="panel-kicker">A QUICK TIP</span>
+        <h3>Start with reliable field data.</h3>
+        <p>
+          Soil-test values and local weather records can help you enter
+          more relevant inputs. Treat the output as an estimate.
+        </p>
+      </article>
+
+      <article class="side-weather">
+        <div class="weather-sun">☀</div>
+        <div>
+          <span class="panel-kicker">PLAN AROUND WEATHER</span>
+          <h3>Know what's coming.</h3>
+          <p>Check your area's current conditions and forecast.</p>
+          <a href="weather.html">Open weather ↗</a>
+        </div>
+      </article>
+
+      <article class="side-history">
+        <div class="history-mark">↗</div>
+        <div>
+          <span class="panel-kicker">KEEP TRACK</span>
+          <h3>Your estimates, in one place.</h3>
+          <p>Review saved predictions any time.</p>
+          <a href="history.html">View history ↗</a>
+        </div>
+      </article>
+
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <span>🌾 AgriYield AI</span>
+  <span>Farmer decision support · Yield outputs are estimates</span>
+</footer>
+
+<script src="assets/js/app.js"></script>
+  <script src="assets/js/language.js"></script>
+</body>
+</html>
+```

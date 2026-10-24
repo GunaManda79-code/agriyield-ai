@@ -1,0 +1,43 @@
+
+/* AgriYield AI Forest Glass shared feature-page theme */
+:root{--fg-bg:#061713;--fg-panel:#0b211c;--fg-panel-2:#0e2b23;--fg-border:#214b3c;--fg-text:#eafff3;--fg-muted:#9bb9ab;--fg-accent:#00d994;--fg-accent-2:#49e6a8}
+html{color-scheme:dark}
+body:not(.dashboard-page){background:radial-gradient(ellipse at 70% 0%,#12382b 0%,#071a15 43%,#04110e 100%)!important;color:var(--fg-text)!important}
+body:not(.dashboard-page) main,body:not(.dashboard-page) .fy-container,body:not(.dashboard-page) .profile-shell,body:not(.dashboard-page) .chatbot-container,body:not(.dashboard-page) .container{color:var(--fg-text)}
+body:not(.dashboard-page) .fy-nav,body:not(.dashboard-page) .site-header{background:linear-gradient(180deg,rgba(4,22,17,.98),rgba(6,29,22,.96))!important;border-color:#1a4435!important;box-shadow:0 14px 40px #0003!important;backdrop-filter:blur(18px)}
+body:not(.dashboard-page) .fy-brand,body:not(.dashboard-page) .brand{color:#f0fff7!important}
+body:not(.dashboard-page) .fy-nav nav a,body:not(.dashboard-page) .main-nav a{color:#a9c9b9!important;border-radius:10px;transition:background .2s,color .2s}
+body:not(.dashboard-page) .fy-nav nav a:hover,body:not(.dashboard-page) .fy-nav nav a.active,body:not(.dashboard-page) .main-nav a:hover,body:not(.dashboard-page) .main-nav a.active{background:linear-gradient(110deg,#087c55,#07513c)!important;color:#fff!important}
+body:not(.dashboard-page) .fy-hero,body:not(.dashboard-page) .prediction-hero{background:linear-gradient(115deg,#0d392b,#0a211a 76%)!important;border:1px solid #285443!important;border-radius:24px!important;box-shadow:0 22px 55px #0004!important;color:#eafff3!important}
+body:not(.dashboard-page) .fy-hero h1,body:not(.dashboard-page) .fy-hero h2,body:not(.dashboard-page) .fy-hero p,body:not(.dashboard-page) .prediction-hero h1,body:not(.dashboard-page) .prediction-hero p{color:#eafff3!important}
+body:not(.dashboard-page) .fy-eyebrow,body:not(.dashboard-page) .panel-kicker{color:var(--fg-accent)!important;letter-spacing:.12em;font-weight:800}
+body:not(.dashboard-page) .fy-panel,body:not(.dashboard-page) .fy-grid>*,body:not(.dashboard-page) .fy-grid-4>*,body:not(.dashboard-page) .fy-grid-5>*,body:not(.dashboard-page) .fy-table-wrap,body:not(.dashboard-page) .prediction-form-card,body:not(.dashboard-page) .prediction-side article,body:not(.dashboard-page) .prediction-result,body:not(.dashboard-page) .profile-panel,body:not(.dashboard-page) .profit-panel,body:not(.dashboard-page) .chatbot-container .chat-window,body:not(.dashboard-page) .chatbot-container>section,body:not(.dashboard-page) .auth-card{background:linear-gradient(145deg,rgba(12,39,30,.96),rgba(7,27,21,.97))!important;border:1px solid var(--fg-border)!important;border-radius:20px!important;color:var(--fg-text)!important;box-shadow:0 16px 42px #0003!important}
+body:not(.dashboard-page) h1,body:not(.dashboard-page) h2,body:not(.dashboard-page) h3,body:not(.dashboard-page) h4{color:#effff6}
+body:not(.dashboard-page) p,body:not(.dashboard-page) .fy-note,body:not(.dashboard-page) .fy-status,body:not(.dashboard-page) small{color:var(--fg-muted)}
+body:not(.dashboard-page) input,body:not(.dashboard-page) select,body:not(.dashboard-page) textarea{background:#061a14!important;border:1px solid #2a5946!important;color:#eafff3!important;border-radius:10px!important}
+body:not(.dashboard-page) input::placeholder,body:not(.dashboard-page) textarea::placeholder{color:#739b87!important}
+body:not(.dashboard-page) input:focus,body:not(.dashboard-page) select:focus,body:not(.dashboard-page) textarea:focus{outline:2px solid #00c985!important;outline-offset:1px}
+body:not(.dashboard-page) select option{background:#0b211c;color:#eafff3}
+body:not(.dashboard-page) button,body:not(.dashboard-page) .button-primary,body:not(.dashboard-page) .primary-button,body:not(.dashboard-page) .submit-prediction{background:linear-gradient(105deg,#00b879,#00d994)!important;color:#032219!important;border:1px solid #35e7a7!important;border-radius:11px!important;font-weight:800;box-shadow:0 7px 18px #00b8791c;transition:transform .2s,filter .2s}
+body:not(.dashboard-page) button:hover,body:not(.dashboard-page) .button-primary:hover,body:not(.dashboard-page) .primary-button:hover{filter:brightness(1.08);transform:translateY(-1px)}
+body:not(.dashboard-page) .fy-button-secondary{background:#12382b!important;color:#c9f8df!important;border:1px solid #2a6049!important}
+body:not(.dashboard-page) .fy-table th{background:#12372c!important;color:#baf8dc!important}
+body:not(.dashboard-page) .fy-table td{border-color:#214536!important;color:#e1f4e9!important}
+body:not(.dashboard-page) .fy-table tr:nth-child(even){background:#0d2821!important}
+body:not(.dashboard-page) .fy-alert{background:#342b13!important;border:1px solid #6c5a22!important;color:#f9e7a4!important;border-radius:14px}
+body:not(.dashboard-page) .fy-footer,body:not(.dashboard-page) .site-footer{background:#041a16!important;color:#9bb8ad!important;border-top:1px solid #1c4035!important}
+body:not(.dashboard-page) a{color:#5be7ad}
+body:not(.dashboard-page) .fy-nav nav a,body:not(.dashboard-page) .main-nav a{font-size:.86rem}
+@media(max-width:900px){
+ body:not(.dashboard-page){padding-left:0!important;padding-top:78px!important}
+ body:not(.dashboard-page) .site-header,body:not(.dashboard-page) .fy-nav{position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:auto!important;width:100%!important;height:auto!important;min-height:66px!important;z-index:1000!important;flex-direction:row!important;align-items:center!important;padding:10px 14px!important;gap:12px!important}
+ body:not(.dashboard-page) .main-nav,body:not(.dashboard-page) .fy-nav nav{flex-direction:row!important;overflow-x:auto!important;white-space:nowrap!important;gap:4px!important;width:auto!important}
+ body:not(.dashboard-page) .main-nav a,body:not(.dashboard-page) .fy-nav nav a{flex:0 0 auto!important;padding:8px 10px!important}
+}
+@media(max-width:560px){
+ body:not(.dashboard-page){padding-top:112px!important}
+ body:not(.dashboard-page) .site-header,body:not(.dashboard-page) .fy-nav{align-items:flex-start!important;flex-direction:column!important}
+ body:not(.dashboard-page) .main-nav,body:not(.dashboard-page) .fy-nav nav{width:100%!important}
+ body:not(.dashboard-page) .fy-container{width:calc(100% - 20px)!important}
+ body:not(.dashboard-page) .profile-form,body:not(.dashboard-page) .profit-layout,body:not(.dashboard-page) .profit-form-grid,body:not(.dashboard-page) .profit-results{grid-template-columns:1fr!important}
+}

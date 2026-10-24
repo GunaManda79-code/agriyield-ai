@@ -1,0 +1,157 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weather Alerts | AgriYield AI</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/farmer_features.css">
+  <link rel="stylesheet" href="assets/css/dark_farm.css">
+
+  <style>
+    .alert-page { max-width: 1000px; margin: 0 auto; padding: 28px 18px; }
+    .alert-form { display: flex; flex-wrap: wrap; gap: 12px; margin: 22px 0; }
+    .alert-form input { flex: 1; min-width: 220px; padding: 12px; border-radius: 8px; }
+    .alert-form button { padding: 12px 20px; border: 0; border-radius: 8px; cursor: pointer; }
+    .alert-card { padding: 18px; margin: 14px 0; border-radius: 12px; border: 1px solid #7775; }
+    .alert-high { border-left: 5px solid #d94841; }
+    .alert-medium { border-left: 5px solid #e0a126; }
+    .alert-safe { padding: 18px; border-radius: 12px; border: 1px solid #7775; }
+    .alert-meta { opacity: .8; font-size: .9rem; }
+    #alert-status { margin: 14px 0; }
+  </style>
+  <link rel="stylesheet" href="assets/css/forest_glass_features.css">
+  <link rel="stylesheet" href="assets/css/language.css">
+</head>
+<body>
+  <header class="fy-nav"><a class="fy-brand" href="index.html">🌾 AgriYield AI</a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">Dashboard</a><a href="predict.html">Predict Yield</a><a href="weather.html">Weather</a><a href="irrigation.html">Irrigation</a><a href="market.html">Market Prices</a><a href="profit.html">Profit Calculator</a><a href="sowing.html">Sowing Calendar</a><a href="schemes.html">Government Schemes</a><a href="history.html">History</a><a href="weather-alerts.html" class="active" aria-current="page">Weather Alerts</a><a href="chatbot.html">Agri AI Chatbot</a></nav></header>
+
+  <main class="alert-page">
+    <section class="fy-hero">
+      <p class="fy-eyebrow">SMART FARMING · WEATHER SAFETY</p>
+      <h1>Extreme Weather Alerts</h1>
+      <p>Check the five-day forecast for potential heavy rainfall and extreme heat risks.</p>
+    </section>
+
+    <form id="alert-form" class="alert-form">
+      <input
+        id="alert-city"
+        type="text"
+        value="Rajahmundry"
+        minlength="2"
+        maxlength="100"
+        placeholder="Enter city or town"
+        aria-label="City or town"
+        required
+      >
+      <button type="submit">Check Alerts</button>
+    </form>
+
+    <p id="alert-status" role="status" aria-live="polite">
+      Enter a location and check the forecast.
+    </p>
+
+    <section id="alert-location" class="alert-safe" hidden></section>
+    <section id="alert-results" aria-live="polite"></section>
+
+    <p class="alert-meta">
+      Source: Open-Meteo. These automated alerts are screening indicators,
+      not official government warnings. Forecasts can change; follow local
+      authorities and official weather advisories.
+    </p>
+  </main>
+
+  <footer class="fy-footer">AgriYield AI · Farmer decision support</footer>
+
+  <script>
+    const form = document.getElementById("alert-form");
+    const cityInput = document.getElementById("alert-city");
+    const statusBox = document.getElementById("alert-status");
+    const locationBox = document.getElementById("alert-location");
+    const resultsBox = document.getElementById("alert-results");
+
+    function makeTextElement(tag, text, className) {
+      const element = document.createElement(tag);
+      element.textContent = text;
+      if (className) element.className = className;
+      return element;
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const city = cityInput.value.trim();
+      if (city.length < 2) return;
+
+      statusBox.textContent = "Checking forecast…";
+      locationBox.hidden = true;
+      locationBox.replaceChildren();
+      resultsBox.replaceChildren();
+
+      try {
+        const url = new URL(
+          "/api/features/weather/alerts",
+          window.location.origin
+        );
+        url.searchParams.set("city", city);
+
+       const response = await fetch(url);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.detail || "Could not retrieve weather alerts.");
+        }
+
+        locationBox.hidden = false;
+        locationBox.appendChild(
+          makeTextElement(
+            "h2",
+            [data.location.name, data.location.admin1, data.location.country]
+              .filter(Boolean).join(", ")
+          )
+        );
+        locationBox.appendChild(
+          makeTextElement(
+            "p",
+            `${data.count} potential weather alert(s) found.`
+          )
+        );
+
+        if (!data.alerts || data.alerts.length === 0) {
+          resultsBox.appendChild(
+            makeTextElement(
+              "div",
+              "No conditions met the current alert thresholds in this forecast. Continue checking official local weather advisories.",
+              "alert-safe"
+            )
+          );
+        } else {
+          data.alerts.forEach((alert) => {
+            const card = document.createElement("article");
+            card.className = "alert-card " +
+              (alert.severity === "high" ? "alert-high" : "alert-medium");
+
+            card.appendChild(makeTextElement("h3", alert.title));
+            card.appendChild(makeTextElement("p", alert.message));
+            card.appendChild(
+              makeTextElement(
+                "p",
+                `Forecast date: ${alert.date} · Severity: ${alert.severity}`,
+                "alert-meta"
+              )
+            );
+
+            resultsBox.appendChild(card);
+          });
+        }
+
+        statusBox.textContent = "Forecast checked successfully.";
+      } catch (error) {
+        statusBox.textContent = error.message || "Failed to load alerts.";
+      }
+    });
+  </script>
+  <script src="assets/js/language.js"></script>
+</body>
+</html>

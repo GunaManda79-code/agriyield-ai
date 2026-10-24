@@ -1,0 +1,69 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prediction History | AgriYield AI</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <link rel="stylesheet" href="assets/css/farmer_features.css">
+  <link rel="stylesheet" href="assets/css/dark_farm.css">
+  <link rel="stylesheet" href="assets/css/forest_glass_features.css">
+  <link rel="stylesheet" href="assets/css/language.css">
+</head>
+<body>
+
+  <header class="fy-nav"><a class="fy-brand" href="index.html">🌾 AgriYield AI</a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">Dashboard</a><a href="predict.html">Predict Yield</a><a href="weather.html">Weather</a><a href="irrigation.html">Irrigation</a><a href="market.html">Market Prices</a><a href="profit.html">Profit Calculator</a><a href="sowing.html">Sowing Calendar</a><a href="schemes.html">Government Schemes</a><a href="history.html" class="active" aria-current="page">History</a><a href="weather-alerts.html">Weather Alerts</a><a href="chatbot.html">Agri AI Chatbot</a></nav></header>
+
+  <main class="fy-container">
+    <section class="fy-hero">
+      <p class="fy-eyebrow">YOUR FARM DATA</p>
+      <h1>Prediction History</h1>
+      <p>View your previous crop yield predictions, including crop names, estimated yields, and prediction dates.</p>
+    </section>
+
+   
+    <section class="history-summary">
+      <article class="history-stat-card">
+        <p>Total Predictions</p>
+        <h2 id="history-total">0</h2>
+      </article>
+
+      <article class="history-stat-card">
+        <p>Different Crops</p>
+        <h2 id="history-crops">0</h2>
+      </article>
+
+      <article class="history-stat-card">
+        <p>Latest Prediction</p>
+        <h2 id="history-latest">—</h2>
+      </article>
+
+      <article class="history-stat-card">
+        <p>Average Predicted Yield</p>
+        <h2 id="history-average">—</h2>
+        <small>tonnes/hectare</small>
+      </article>
+    </section>
+
+    <div id="history-status" class="fy-status" role="status"></div>
+
+    <section class="fy-panel">
+      <h2>Previous Predictions</h2>
+      <div id="history-results" class="fy-table-wrap"></div>
+    </section>
+
+  </main>
+
+  <footer class="fy-footer">
+    AgriYield AI · Farmer decision support
+  </footer>
+
+  <script src="assets/js/farmer_features.js"></script>
+  <script>
+    AgriFeatures.initHistory();
+  </script>
+  <script src="assets/js/language.js"></script>
+</body>
+</html>

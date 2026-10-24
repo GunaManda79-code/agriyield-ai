@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weather | AgriYield AI</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <link rel="stylesheet" href="assets/css/farmer_features.css">
+  <link rel="stylesheet" href="assets/css/dark_farm.css">
+  <link rel="stylesheet" href="assets/css/forest_glass_features.css">
+  <link rel="stylesheet" href="assets/css/language.css">
+</head>
+<body>
+<header class="fy-nav"><a class="fy-brand" href="index.html">🌾 AgriYield AI</a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">Dashboard</a><a href="predict.html">Predict Yield</a><a href="weather.html" class="active" aria-current="page">Weather</a><a href="irrigation.html">Irrigation</a><a href="market.html">Market Prices</a><a href="profit.html">Profit Calculator</a><a href="sowing.html">Sowing Calendar</a><a href="schemes.html">Government Schemes</a><a href="history.html">History</a><a href="weather-alerts.html">Weather Alerts</a><a href="chatbot.html">Agri AI Chatbot</a></nav></header>
+<main class="fy-container">
+  <section class="fy-hero"><p class="fy-eyebrow">FARM WEATHER</p><h1>Weather for your farm</h1><p>Current conditions and a five-day forecast for a selected village or town.</p></section>
+  <section class="fy-panel"><form id="weather-form" class="fy-inline-form"><label for="city">Village or town</label><input id="city" name="city" value="Kakinada" required maxlength="100"><button type="submit">Get weather</button></form><p class="fy-note">Requires internet access. Forecasts can change and should be checked against local conditions.</p></section>
+  <div id="weather-status" class="fy-status" role="status"></div>
+<section id="weather-current" class="fy-grid fy-grid-4"></section>
+  <section>
+  <h2>Five-day forecast</h2>
+  <div id="weather-daily" class="fy-grid fy-grid-5"></div>
+</section><section class="fy-panel">
+  <h2>Previous 5 Days' Weather</h2>
+  <p class="fy-note">
+    Historical daily temperature, humidity, and rainfall retrieved from
+    Open-Meteo and saved in MySQL.
+  </p>
+  <button type="button" id="weather-history-btn">
+    Load Previous 5 Days
+  </button>
+  <div id="weather-history-status" class="fy-status" role="status"></div>
+  <div id="weather-history-results" class="fy-grid fy-grid-5"></div>
+</section>
+
+<section class="fy-panel">
+  <h2>Saved Weather History</h2>
+  <button type="button" id="saved-weather-btn">View Saved History</button>
+  <div id="saved-weather-status" class="fy-status" role="status"></div>
+  <div id="saved-weather-results" class="fy-grid fy-grid-5"></div>
+</section>
+</main>
+<footer class="fy-footer">AgriYield AI · Farmer decision support</footer>
+<script src="assets/js/farmer_features.js"></script>
+<script>
+  AgriFeatures.initWeather();
+  AgriFeatures.initWeatherHistory();
+</script>
+  <script src="assets/js/language.js"></script>
+</body>
+</html>

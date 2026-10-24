@@ -1,0 +1,321 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Farm Profit Estimator | AgriYield AI</title>
+
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/farmer_features.css">
+  <link rel="stylesheet" href="assets/css/dark_farm.css">
+
+  <style>
+    .profit-layout {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      margin: 24px 0;
+    }
+
+    .profit-panel {
+      padding: 24px;
+      border-radius: 16px;
+      border: 1px solid rgba(120, 180, 120, 0.3);
+      background: rgba(15, 40, 25, 0.88);
+    }
+
+    .profit-panel h2 {
+      color: #8eea9a;
+      margin-top: 0;
+    }
+
+    .profit-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .profit-field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .profit-field label {
+      color: #e0eee3;
+      font-size: 0.92rem;
+    }
+
+    .profit-field input,
+    .profit-field select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 11px;
+      border-radius: 8px;
+      border: 1px solid #56715d;
+      background: #102b1b;
+      color: white;
+    }
+
+    .profit-field small {
+      color: #b9cdbd;
+    }
+
+    .profit-full {
+      grid-column: 1 / -1;
+    }
+
+    .profit-results {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .profit-metric {
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(100, 150, 100, 0.13);
+    }
+
+    .profit-metric span {
+      display: block;
+      color: #c3d6c7;
+      font-size: 0.9rem;
+    }
+
+    .profit-metric strong {
+      display: block;
+      margin-top: 8px;
+      color: #8eea9a;
+      font-size: 1.35rem;
+      overflow-wrap: anywhere;
+    }
+
+    #profit-message {
+      margin-top: 16px;
+    }
+
+    .profit-note {
+      color: #c3d6c7;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 700px) {
+      .profit-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .profit-form-grid,
+      .profit-results {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="assets/css/forest_glass_features.css">
+  <link rel="stylesheet" href="assets/css/language.css">
+</head>
+
+<body>
+  <header class="fy-nav"><a class="fy-brand" href="index.html">🌾 AgriYield AI</a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">Dashboard</a><a href="predict.html">Predict Yield</a><a href="weather.html">Weather</a><a href="irrigation.html">Irrigation</a><a href="market.html">Market Prices</a><a href="profit.html" class="active" aria-current="page">Profit Calculator</a><a href="sowing.html">Sowing Calendar</a><a href="schemes.html">Government Schemes</a><a href="history.html">History</a><a href="weather-alerts.html">Weather Alerts</a><a href="chatbot.html">Agri AI Chatbot</a></nav></header>
+
+  <main class="fy-container">
+    <section class="fy-hero">
+      <p class="fy-eyebrow">PLAN YOUR FARMING BUDGET</p>
+      <h1>Farm Profit Estimator</h1>
+      <p>
+        Estimate your farming revenue, expenses and possible profit
+        before harvesting or selling your crop.
+      </p>
+    </section>
+
+    <div class="profit-layout">
+      <section class="profit-panel">
+        <h2>Farm and Crop Details</h2>
+
+        <form id="profit-form">
+          <div class="profit-form-grid">
+            <div class="profit-field">
+              <label for="profit-crop">Crop</label>
+              <input id="profit-crop" name="crop"
+                     placeholder="e.g. Rice" required>
+            </div>
+
+            <div class="profit-field">
+              <label for="profit-area">Land area</label>
+              <input id="profit-area" name="area" type="number"
+                     min="0.01" step="any" value="1" required>
+            </div>
+
+            <div class="profit-field">
+              <label for="profit-unit">Area unit</label>
+              <select id="profit-unit" name="unit">
+                <option value="acres">Acres</option>
+                <option value="hectares">Hectares</option>
+              </select>
+            </div>
+
+            <div class="profit-field">
+              <label for="profit-yield">Expected yield</label>
+              <input id="profit-yield" name="yield" type="number"
+                     min="0.01" step="any" value="4.5" required>
+              <small>Tonnes per hectare</small>
+            </div>
+
+            <div class="profit-field profit-full">
+              <label for="profit-price">Expected selling price (₹ per quintal)</label>
+              <input id="profit-price" name="price" type="number"
+                     min="0" step="any" value="2300" required>
+            </div>
+          </div>
+
+          <h2 style="margin-top: 26px;">Farming Expenses (₹)</h2>
+
+          <div class="profit-form-grid">
+            <div class="profit-field">
+              <label for="cost-seeds">Seeds</label>
+              <input id="cost-seeds" name="seeds" type="number"
+                     min="0" step="any" value="2000" required>
+            </div>
+
+            <div class="profit-field">
+              <label for="cost-fertilizer">Fertilizers</label>
+              <input id="cost-fertilizer" name="fertilizer" type="number"
+                     min="0" step="any" value="3500" required>
+            </div>
+
+            <div class="profit-field">
+              <label for="cost-labour">Labour</label>
+              <input id="cost-labour" name="labour" type="number"
+                     min="0" step="any" value="4000" required>
+            </div>
+
+            <div class="profit-field">
+              <label for="cost-irrigation">Irrigation</label>
+              <input id="cost-irrigation" name="irrigation" type="number"
+                     min="0" step="any" value="1500" required>
+            </div>
+
+            <div class="profit-field">
+              <label for="cost-pesticides">Pesticides</label>
+              <input id="cost-pesticides" name="pesticides" type="number"
+                     min="0" step="any" value="1000" required>
+            </div>
+
+            <div class="profit-field">
+              <label for="cost-other">Other expenses</label>
+              <input id="cost-other" name="other" type="number"
+                     min="0" step="any" value="1000" required>
+            </div>
+
+            <div class="profit-field profit-full">
+              <button type="submit" class="btn btn-success">
+                Calculate Farm Profit
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="profit-panel" aria-live="polite">
+        <h2>Estimated Results</h2>
+        <p id="profit-message" class="profit-note">
+          Enter your farm details and calculate to see the estimate.
+        </p>
+
+        <div class="profit-results">
+          <div class="profit-metric">
+            <span>Land area (hectares)</span>
+            <strong id="result-hectares">—</strong>
+          </div>
+
+          <div class="profit-metric">
+            <span>Expected production</span>
+            <strong id="result-production">—</strong>
+          </div>
+
+          <div class="profit-metric">
+            <span>Estimated revenue</span>
+            <strong id="result-revenue">—</strong>
+          </div>
+
+          <div class="profit-metric">
+            <span>Total expenses</span>
+            <strong id="result-expenses">—</strong>
+          </div>
+
+          <div class="profit-metric">
+            <span>Estimated net profit/loss</span>
+            <strong id="result-profit">—</strong>
+          </div>
+
+          <div class="profit-metric">
+            <span>Profit/loss per acre</span>
+            <strong id="result-per-acre">—</strong>
+          </div>
+
+          <div class="profit-metric profit-full">
+            <span>Profit/loss per hectare</span>
+            <strong id="result-per-hectare">—</strong>
+          </div>
+        </div>
+
+        <p class="profit-note">
+          This is a planning estimate, not a guaranteed return.
+          Actual yield, sale prices, transport, storage and other
+          costs may change your result. Include all relevant expenses.
+        </p>
+      </section>
+    </div>
+  </main>
+  
+<section class="profit-panel" id="saved-profit-section">
+  <h2>Saved Farm Profit Records</h2>
+  <p class="profit-note">
+    Your previous calculations saved in the database.
+  </p>
+
+  <p id="saved-profit-message" class="profit-note"
+     role="status">Loading saved records...</p>
+
+  <div style="overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse; min-width: 700px;">
+      <thead>
+        <tr>
+          <th style="padding: 10px; text-align: left;">Crop</th>
+          <th style="padding: 10px; text-align: left;">Land (ha)</th>
+          <th style="padding: 10px; text-align: left;">Revenue</th>
+          <th style="padding: 10px; text-align: left;">Expenses</th>
+          <th style="padding: 10px; text-align: left;">Profit/Loss</th>
+          <th style="padding: 10px; text-align: left;">Saved At</th>
+        </tr>
+      </thead>
+      <tbody id="saved-profit-body">
+        <tr>
+          <td colspan="6" style="padding: 10px;">
+            Loading...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <button type="button" id="refresh-profit-records"
+          class="btn btn-success" style="margin-top: 16px;">
+    Refresh Records
+  </button>
+</section>
+
+
+  <footer class="fy-footer">
+    AgriYield AI · Farmer decision support
+  </footer>
+
+  <script src="assets/js/profit.js"></script>
+  <script src="assets/js/language.js"></script>
+</body>
+</html>

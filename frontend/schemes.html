@@ -1,0 +1,341 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Government Schemes | AgriYield AI</title>
+
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/farmer_features.css">
+  <link rel="stylesheet" href="assets/css/dark_farm.css">
+
+  <style>
+    .schemes-page {
+      max-width: 1100px;
+      margin: auto;
+      padding: 28px 18px;
+    }
+
+    .schemes-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .schemes-controls input,
+    .schemes-controls select {
+      flex: 1;
+      min-width: 200px;
+      padding: 12px;
+      border: 1px solid #7777;
+      border-radius: 9px;
+      background: transparent;
+      color: inherit;
+    }
+
+    .schemes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .scheme-card {
+      padding: 20px;
+      border: 1px solid #7775;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .scheme-category {
+      font-size: .82rem;
+      opacity: .8;
+    }
+
+    .scheme-card h2 {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+
+    .scheme-card p {
+      line-height: 1.6;
+    }
+
+    .scheme-card button,
+    .scheme-details button {
+      padding: 11px 15px;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .scheme-card button {
+      margin-top: auto;
+    }
+
+    .scheme-details {
+      padding: 22px;
+      margin-top: 24px;
+      border: 1px solid #7775;
+      border-radius: 14px;
+    }
+
+    .scheme-details h2 {
+      margin-top: 0;
+    }
+
+    .scheme-details li {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+
+    .scheme-official-link {
+      display: inline-block;
+      margin: 12px 12px 8px 0;
+    }
+
+    .scheme-status {
+      margin: 16px 0;
+    }
+
+    .scheme-empty {
+      padding: 20px;
+      border: 1px solid #7775;
+      border-radius: 12px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    /* Make category dropdown options readable */
+#scheme-category {
+  background-color: #09231c;
+  color: #f2f8f5;
+}
+
+#scheme-category option {
+  background-color: #09231c;
+  color: #f2f8f5;
+}
+
+#scheme-category:focus {
+  outline: 2px solid #00c98d;
+  outline-offset: 2px;
+}
+  </style>
+  <link rel="stylesheet" href="assets/css/forest_glass_features.css">
+  <link rel="stylesheet" href="assets/css/language.css">
+</head>
+
+<body>
+  <header class="fy-nav"><a class="fy-brand" href="index.html">🌾 AgriYield AI</a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">Dashboard</a><a href="predict.html">Predict Yield</a><a href="weather.html">Weather</a><a href="irrigation.html">Irrigation</a><a href="market.html">Market Prices</a><a href="profit.html">Profit Calculator</a><a href="sowing.html">Sowing Calendar</a><a href="schemes.html" class="active" aria-current="page">Government Schemes</a><a href="history.html">History</a><a href="weather-alerts.html">Weather Alerts</a><a href="chatbot.html">Agri AI Chatbot</a></nav></header>
+
+  <main class="schemes-page">
+    <section class="fy-hero">
+      <p class="fy-eyebrow">FARMER SUPPORT · OFFICIAL RESOURCES</p>
+      <h1>Government Schemes & Agriculture Services</h1>
+      <p>
+        Explore government farming schemes, review eligibility information,
+        and visit official portals for current application requirements.
+      </p>
+    </section>
+
+    <div class="schemes-controls">
+      <input
+        id="scheme-search"
+        type="search"
+        placeholder="Search schemes..."
+        aria-label="Search schemes"
+      >
+
+      <select id="scheme-category" aria-label="Filter by category">
+        <option value="">All categories</option>
+      </select>
+    </div>
+
+    <p id="scheme-status" class="scheme-status" role="status" aria-live="polite">
+      Loading government schemes...
+    </p>
+
+    <section id="schemes-grid" class="schemes-grid"></section>
+
+    <section id="scheme-details" class="scheme-details" hidden></section>
+
+    <p class="scheme-category">
+      Scheme information is a general guide, not confirmation of eligibility.
+      Verify current rules, deadlines and application availability on official
+      government portals.
+    </p>
+  </main>
+
+  <footer class="fy-footer">
+    AgriYield AI · Farmer decision support
+  </footer>
+
+  <script>
+    const searchInput = document.getElementById("scheme-search");
+    const categorySelect = document.getElementById("scheme-category");
+    const statusBox = document.getElementById("scheme-status");
+    const grid = document.getElementById("schemes-grid");
+    const details = document.getElementById("scheme-details");
+
+    let schemes = [];
+
+    function addText(parent, tag, value, className = "") {
+      const element = document.createElement(tag);
+      element.textContent = value ?? "";
+      if (className) element.className = className;
+      parent.appendChild(element);
+      return element;
+    }
+
+    function renderSchemes() {
+      const term = searchInput.value.trim().toLowerCase();
+      const category = categorySelect.value;
+
+      const filtered = schemes.filter(scheme => {
+        const matchesSearch =
+          !term ||
+          scheme.name.toLowerCase().includes(term) ||
+          scheme.description.toLowerCase().includes(term) ||
+          scheme.category.toLowerCase().includes(term);
+
+        return matchesSearch &&
+          (!category || scheme.category === category);
+      });
+
+      grid.replaceChildren();
+
+      if (!filtered.length) {
+        addText(
+          grid,
+          "p",
+          "No schemes match your search. Try another keyword or category.",
+          "scheme-empty"
+        );
+        return;
+      }
+
+      filtered.forEach(scheme => {
+        const card = document.createElement("article");
+        card.className = "scheme-card";
+
+        addText(card, "span", scheme.category, "scheme-category");
+        addText(card, "h2", scheme.name);
+        addText(card, "p", scheme.description);
+        addText(card, "p", scheme.benefits);
+        const officialLink = document.createElement("a");
+officialLink.href = scheme.official_url;
+officialLink.target = "_blank";
+officialLink.rel = "noopener noreferrer";
+officialLink.textContent = "Official Portal / Apply ↗";
+officialLink.className = "scheme-official-link";
+card.appendChild(officialLink);
+
+        const button = addText(card, "button", "View Scheme Details");
+        button.type = "button";
+        button.addEventListener("click", () => showDetails(scheme));
+
+        grid.appendChild(card);
+      });
+    }
+
+    function showDetails(scheme) {
+      details.replaceChildren();
+      details.hidden = false;
+
+      addText(details, "h2", scheme.name);
+      addText(details, "p", scheme.description);
+
+      addText(details, "h3", "Benefits");
+      addText(details, "p", scheme.benefits);
+
+      addText(details, "h3", "Eligibility information");
+      addText(details, "p", scheme.eligibility_summary);
+
+      addText(details, "h3", "Documents to check");
+      const list = document.createElement("ul");
+
+      (scheme.documents_to_check || []).forEach(documentName => {
+        addText(list, "li", documentName);
+      });
+
+      details.appendChild(list);
+
+      addText(details, "h3", "How to get started");
+      addText(details, "p", scheme.how_to_start);
+
+      const link = document.createElement("a");
+      link.className = "scheme-official-link";
+      link.href = scheme.official_url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "Open Official Government Portal ↗";
+      details.appendChild(link);
+
+      addText(details, "p", "Source: " + scheme.source, "scheme-category");
+
+      const closeButton = addText(details, "button", "Close Details");
+      closeButton.type = "button";
+      closeButton.addEventListener("click", () => {
+        details.hidden = true;
+        details.replaceChildren();
+      });
+
+      details.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    async function loadSchemes() {
+      statusBox.textContent = "Loading government schemes...";
+      grid.replaceChildren();
+
+      try {
+        const response = await fetch("/api/schemes/");
+
+        if (!response.ok) {
+          throw new Error("Could not load government schemes.");
+        }
+
+        const data = await response.json();
+
+        if (!data.success || !Array.isArray(data.schemes)) {
+          throw new Error("The schemes API returned an unexpected response.");
+        }
+
+        schemes = data.schemes;
+
+        const categories = [...new Set(
+          schemes.map(scheme => scheme.category).filter(Boolean)
+        )].sort();
+
+        categorySelect.replaceChildren();
+        addText(categorySelect, "option", "All categories").value = "";
+
+        categories.forEach(category => {
+          const option = document.createElement("option");
+          option.value = category;
+          option.textContent = category;
+          categorySelect.appendChild(option);
+        });
+
+        statusBox.textContent = `${schemes.length} scheme(s) loaded.`;
+        renderSchemes();
+      } catch (error) {
+        statusBox.textContent =
+          error.message || "Unable to load schemes. Please try again.";
+      }
+    }
+
+    searchInput.addEventListener("input", renderSchemes);
+    categorySelect.addEventListener("change", renderSchemes);
+
+    loadSchemes();
+  </script>
+  <script src="assets/js/language.js"></script>
+</body>
+</html>

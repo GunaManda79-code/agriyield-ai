@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Farmer Profile | AgriYield AI</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/dark_farm.css">
+  <style>
+    .profile-shell {
+      max-width: 900px;
+      margin: 36px auto;
+      padding: 24px;
+    }
+    .profile-panel {
+      padding: 28px;
+      border-radius: 18px;
+      background: rgba(12, 39, 29, 0.94);
+      border: 1px solid rgba(110, 231, 183, 0.25);
+      color: #edfdf4;
+    }
+    .profile-panel h1 { margin-top: 0; }
+    .profile-intro { color: #c5e5d4; }
+    .profile-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .profile-field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .profile-field label { font-weight: 600; }
+    .profile-field input,
+    .profile-field select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      border: 1px solid #547466;
+      border-radius: 9px;
+      background: #102c22;
+      color: #f2fff7;
+    }
+    .profile-field option {
+      background: #102c22;
+      color: #f2fff7;
+    }
+    .profile-field input:focus,
+    .profile-field select:focus {
+      outline: 2px solid #6ee7b7;
+      outline-offset: 2px;
+    }
+    .profile-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .profile-message {
+      margin-top: 18px;
+      min-height: 24px;
+    }
+    @media (max-width: 650px) {
+      .profile-shell { padding: 14px; }
+      .profile-form { grid-template-columns: 1fr; }
+      .profile-panel { padding: 20px; }
+    }
+  </style>
+  <link rel="stylesheet" href="assets/css/forest_glass_features.css">
+  <link rel="stylesheet" href="assets/css/language.css">
+</head>
+<body class="dashboard-page">
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">🌾</span>
+      <span>AgriYield <b>AI</b><small>SMART FARMING PLATFORM</small></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation"><a href="index.html">Dashboard</a><a href="predict.html">Predict Yield</a><a href="weather.html">Weather</a><a href="soil.html">Soil Records</a><a href="irrigation.html">Irrigation</a><a href="market.html">Market Prices</a><a href="profit.html">Profit Calculator</a><a href="sowing.html">Sowing Calendar</a><a href="schemes.html">Government Schemes</a><a href="farmer-profile.html" class="active" aria-current="page">Farmer Profile</a><a href="history.html">History</a><a href="weather-alerts.html">Weather Alerts</a><a href="chatbot.html">Agri AI Chatbot</a></nav>
+  </header>
+
+  <main class="profile-shell">
+    <section class="profile-panel">
+      <h1>🌱 Farmer Profile & Farm Management</h1>
+      <p class="profile-intro">
+        Save your farm details to keep important information organised.
+      </p>
+
+      <form id="farmer-profile-form" class="profile-form">
+        <div class="profile-field">
+          <label for="farm_name">Farm name</label>
+          <input id="farm_name" name="farm_name" maxlength="150"
+                 placeholder="e.g. Green Valley Farm">
+        </div>
+
+        <div class="profile-field">
+          <label for="state">State *</label>
+          <input id="state" name="state" required maxlength="100"
+                 placeholder="e.g. Andhra Pradesh">
+        </div>
+
+        <div class="profile-field">
+          <label for="district">District *</label>
+          <input id="district" name="district" required maxlength="100"
+                 placeholder="Enter district">
+        </div>
+
+        <div class="profile-field">
+          <label for="village">Village</label>
+          <input id="village" name="village" maxlength="100"
+                 placeholder="Enter village">
+        </div>
+
+        <div class="profile-field">
+          <label for="farm_size">Farm size</label>
+          <input id="farm_size" name="farm_size" type="number"
+                 min="1" step="1" placeholder="e.g. 5">
+        </div>
+
+        <div class="profile-field">
+          <label for="farm_size_unit">Farm size unit</label>
+          <select id="farm_size_unit" name="farm_size_unit">
+            <option value="acres">Acres</option>
+            <option value="hectares">Hectares</option>
+          </select>
+        </div>
+
+        <div class="profile-field">
+          <label for="soil_type">Soil type</label>
+          <select id="soil_type" name="soil_type">
+            <option value="">Select soil type</option>
+            <option value="Red Soil">Red soil</option>
+            <option value="Black Soil">Black soil</option>
+            <option value="Alluvial Soil">Alluvial soil</option>
+            <option value="Laterite Soil">Laterite soil</option>
+            <option value="Sandy Soil">Sandy soil</option>
+            <option value="Clay Soil">Clay soil</option>
+            <option value="Other">Other / unknown</option>
+          </select>
+        </div>
+
+        <div class="profile-field">
+          <label for="preferred_crops">Preferred crops</label>
+          <input id="preferred_crops" name="preferred_crops"
+                 maxlength="500" placeholder="e.g. Rice, Maize">
+        </div>
+
+        <div class="profile-field">
+          <label for="irrigation_method">Irrigation method</label>
+          <select id="irrigation_method" name="irrigation_method">
+            <option value="">Select method</option>
+            <option value="Drip Irrigation">Drip irrigation</option>
+            <option value="Sprinkler">Sprinkler</option>
+            <option value="Flood Irrigation">Flood irrigation</option>
+            <option value="Rainfed">Rainfed</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="profile-actions">
+          <button type="submit" class="button button-light">
+            Save Farm Profile
+          </button>
+          <button type="button" id="reload-profile" class="button button-glass">
+            Reload Saved Profile
+          </button>
+        </div>
+      </form>
+
+      <p id="profile-message" class="profile-message" role="status"
+         aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>🌾 AgriYield AI</span>
+    <span>Smart farming assistant · Farm management</span>
+  </footer>
+
+  <script src="assets/js/farmer-profile.js"></script>
+  <script src="assets/js/language.js"></script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#031a14">
+    <title>Select Language | AgriYield AI</title>
+
+    <style>
+        /* ========================================
+           AGRIYIELD AI - LANGUAGE SELECTOR
+           Standalone CSS matching the login page
+        ======================================== */
+
+        :root {
+            --bg: #031a14;
+            --card: rgba(8, 38, 29, 0.88);
+            --border: #205642;
+            --text: #f5fff9;
+            --muted: #a8d6c4;
+            --green: #00c98b;
+            --green-hover: #00e0a0;
+            --input-bg: #061f18;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 24px;
+            display: grid;
+            place-items: center;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(
+                    ellipse at top right,
+                    rgba(0, 201, 139, 0.09),
+                    transparent 45%
+                ),
+                linear-gradient(
+                    135deg,
+                    #02130f 0%,
+                    #06271c 55%,
+                    #031a14 100%
+                );
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        .language-card {
+            width: min(495px, 100%);
+            padding: 36px;
+            text-align: center;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        .logo {
+            width: 68px;
+            height: 68px;
+            margin: 0 auto 20px;
+            display: grid;
+            place-items: center;
+            background: #e8f7ed;
+            border-radius: 50%;
+            font-size: 38px;
+        }
+
+        h1 {
+            margin-bottom: 12px;
+            color: var(--text);
+            font-size: 30px;
+            font-weight: 750;
+        }
+
+        .subtitle {
+            margin-bottom: 26px;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .language-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .language-option {
+            width: 100%;
+            min-height: 60px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease,
+                        border-color 0.2s ease,
+                        transform 0.2s ease;
+        }
+
+        .language-code {
+            min-width: 22px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .language-option:hover {
+            background: #103d2d;
+            border-color: var(--green);
+            transform: translateY(-1px);
+        }
+
+        .language-option.selected {
+            color: #03251a;
+            background: #e7f5e8;
+            border: 2px solid #16874f;
+        }
+
+        .language-option.selected .language-code {
+            color: #17603f;
+        }
+
+        .continue-button {
+            width: 100%;
+            min-height: 54px;
+            margin-top: 22px;
+            padding: 15px;
+            color: #03251a;
+            background: linear-gradient(
+                135deg,
+                var(--green),
+                var(--green-hover)
+            );
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease,
+                        filter 0.2s ease;
+        }
+
+        .continue-button:hover {
+            filter: brightness(1.06);
+            transform: translateY(-1px);
+        }
+
+        button:focus-visible {
+            outline: 3px solid var(--green-hover);
+            outline-offset: 3px;
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 16px;
+            }
+
+            .language-card {
+                padding: 28px 22px;
+                border-radius: 22px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="language-card">
+        <div class="logo">🌱</div>
+
+        <h1>AgriYield AI</h1>
+
+        <p class="subtitle">
+            Choose your preferred language<br>
+            మీకు నచ్చిన భాషను ఎంచుకోండి · अपनी भाषा चुनें
+        </p>
+
+        <div class="language-options">
+            <button type="button"
+                    class="language-option"
+                    data-language="en"
+                    aria-pressed="false">
+                <span class="language-code">GB</span>
+                <span>English</span>
+            </button>
+
+            <button type="button"
+                    class="language-option"
+                    data-language="te"
+                    aria-pressed="false">
+                <span class="language-code">IN</span>
+                <span>తెలుగు</span>
+            </button>
+
+            <button type="button"
+                    class="language-option"
+                    data-language="hi"
+                    aria-pressed="false">
+                <span class="language-code">IN</span>
+                <span>हिन्दी</span>
+            </button>
+        </div>
+
+        <button type="button"
+                class="continue-button"
+                id="continueButton">
+            Continue →
+        </button>
+    </main>
+
+    <script>
+        (() => {
+            const KEY = "agriYieldLanguage";
+            let selected = localStorage.getItem(KEY) || "en";
+
+            const labels = {
+                en: "Continue →",
+                te: "కొనసాగించండి →",
+                hi: "जारी ఉంచండి →"
+            };
+
+            const options = document.querySelectorAll("[data-language]");
+            const continueButton =
+                document.getElementById("continueButton");
+
+            function updateSelection() {
+                options.forEach(button => {
+                    const active =
+                        button.dataset.language === selected;
+
+                    button.classList.toggle("selected", active);
+                    button.setAttribute(
+                        "aria-pressed",
+                        String(active)
+                    );
+                });
+
+                continueButton.textContent = labels[selected];
+            }
+
+            options.forEach(button => {
+                button.addEventListener("click", () => {
+                    selected = button.dataset.language;
+                    updateSelection();
+                });
+            });
+
+            continueButton.addEventListener("click", () => {
+                localStorage.setItem(KEY, selected);
+                window.location.href = "login.html";
+            });
+
+            updateSelection();
+        })();
+    </script>
+</body>
+</html>

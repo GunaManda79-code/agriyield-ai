@@ -1,0 +1,75 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crop Sowing Calendar | AgriYield AI</title>
+
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/farmer_features.css">
+  <link rel="stylesheet" href="assets/css/dark_farm.css">
+  <link rel="stylesheet" href="assets/css/forest_glass_features.css">
+  <link rel="stylesheet" href="assets/css/language.css">
+</head>
+<body>
+  <header class="fy-nav"><a class="fy-brand" href="index.html">🌾 AgriYield AI</a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">Dashboard</a><a href="predict.html">Predict Yield</a><a href="weather.html">Weather</a><a href="irrigation.html">Irrigation</a><a href="market.html">Market Prices</a><a href="profit.html">Profit Calculator</a><a href="sowing.html" class="active" aria-current="page">Sowing Calendar</a><a href="schemes.html">Government Schemes</a><a href="history.html">History</a><a href="weather-alerts.html">Weather Alerts</a><a href="chatbot.html">Agri AI Chatbot</a></nav></header>
+
+  <main class="fy-container">
+    <section class="fy-hero">
+      <p class="fy-eyebrow">PLAN YOUR GROWING SEASON</p>
+      <h1>Crop Sowing Calendar</h1>
+      <p>Plan important crop activities and track your growing season.</p>
+    </section>
+
+    <section class="fy-panel">
+      <h2>Create a Crop Plan</h2>
+
+      <form id="sowing-form">
+        <label for="sowing-crop">Crop</label>
+        <select id="sowing-crop" required>
+          <option value="">Select crop</option>
+          <option value="Rice">Rice / Paddy</option>
+          <option value="Maize">Maize</option>
+          <option value="Cotton">Cotton</option>
+          <option value="Groundnut">Groundnut</option>
+          <option value="Chilli">Chilli</option>
+        </select>
+
+        <label for="sowing-location">District / location</label>
+        <input id="sowing-location" placeholder="e.g. Kakinada" required>
+
+        <label for="sowing-season">Season</label>
+        <select id="sowing-season" required>
+          <option value="">Select season</option>
+          <option value="Kharif">Kharif</option>
+          <option value="Rabi">Rabi</option>
+          <option value="Summer">Summer</option>
+        </select>
+
+        <label for="sowing-date">Planned sowing date</label>
+        <input id="sowing-date" type="date" required>
+
+        <button type="submit" class="btn btn-success">
+          Generate Crop Plan
+        </button>
+      </form>
+    </section>
+
+    <section class="fy-panel">
+      <h2>Your Crop Activities</h2>
+      <p id="sowing-status" role="status">
+        Enter your crop details to create a plan.
+      </p>
+      <div id="sowing-results"></div>
+    </section>
+  </main>
+
+  <footer class="fy-footer">
+    AgriYield AI · Farmer decision support
+  </footer>
+
+  <script src="assets/js/sowing.js"></script>
+  <script src="assets/js/language.js"></script>
+</body>
+</html>

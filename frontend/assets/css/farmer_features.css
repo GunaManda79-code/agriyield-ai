@@ -1,0 +1,165 @@
+:root{--fy-green:#1e6b45;--fy-deep:#174b34;--fy-lime:#dff1df;--fy-cream:#fbf8ef;--fy-ink:#26382d;--fy-muted:#68776d;--fy-border:#dce7dc;--fy-shadow:0 12px 32px rgba(23,75,52,.08)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fy-cream);color:var(--fy-ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55}
+a{color:inherit;text-decoration:none}
+.fy-nav{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:16px clamp(16px,5vw,70px);background:#fff;border-bottom:1px solid var(--fy-border);position:sticky;top:0;z-index:5}
+.fy-brand{font-size:1.15rem;font-weight:800;color:var(--fy-deep)}
+.fy-nav nav{display:flex;gap:8px 18px;flex-wrap:wrap}
+.fy-nav nav a{font-size:.94rem;font-weight:650;color:#3d5a48}
+.fy-nav nav a:hover{color:var(--fy-green);text-decoration:underline}
+.fy-container{width:min(1120px,calc(100% - 32px));margin:32px auto 56px}
+.fy-hero{padding:clamp(26px,5vw,52px);border-radius:24px;background:linear-gradient(125deg,#174b34,#27804f);color:white;box-shadow:var(--fy-shadow);margin-bottom:24px}
+.fy-hero h1{color:white;font-size:clamp(2rem,4vw,3rem);line-height:1.12;margin:.2em 0}
+.fy-hero p{max-width:720px;color:#e7f5e9;margin:.5em 0 0}
+.fy-eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:.76rem;font-weight:800;color:#c5edce!important}
+.fy-panel{background:#fff;border:1px solid var(--fy-border);border-radius:18px;padding:clamp(18px,3vw,28px);box-shadow:var(--fy-shadow);margin:22px 0}
+.fy-panel h2{margin-top:0;color:var(--fy-deep)}
+.fy-grid{display:grid;gap:14px;margin:18px 0 28px}
+.fy-grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.fy-grid-5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.fy-metric{background:white;border:1px solid var(--fy-border);border-radius:16px;padding:18px;box-shadow:var(--fy-shadow)}
+.fy-metric span{display:block;color:var(--fy-muted);font-size:.85rem}
+.fy-metric strong{display:block;color:var(--fy-deep);font-size:1.55rem;margin-top:7px;overflow-wrap:anywhere}
+.fy-metric small{color:var(--fy-muted)}
+.fy-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.fy-form-grid label,.fy-inline-form label{display:flex;flex-direction:column;gap:6px;font-weight:650;font-size:.93rem}
+.fy-span-2{grid-column:span 2}
+.fy-inline-form{display:flex;align-items:end;gap:12px;flex-wrap:wrap}
+.fy-inline-form label{min-width:220px;flex:1}
+.fy-form-grid input,.fy-form-grid textarea,.fy-inline-form input{width:100%;padding:12px;border:1px solid #cbd9cc;border-radius:10px;background:#fff;color:var(--fy-ink);font:inherit}
+.fy-form-grid input:focus,.fy-form-grid textarea:focus,.fy-inline-form input:focus{outline:3px solid #d7efdc;border-color:var(--fy-green)}
+button{border:0;border-radius:10px;padding:12px 18px;background:var(--fy-green);color:#fff;font:inherit;font-weight:750;cursor:pointer}
+button:hover{background:var(--fy-deep)}
+.fy-button-secondary{background:#edf4ee;color:var(--fy-deep)}
+.fy-status{margin:14px 0;color:var(--fy-muted);white-space:pre-wrap}
+.fy-alert{background:#fff7dd;border:1px solid #eadba6;border-radius:12px;padding:14px 16px;color:#6e5413;margin:16px 0}
+.fy-note{font-size:.88rem;color:var(--fy-muted)}
+.fy-table-wrap{overflow:auto;background:white;border:1px solid var(--fy-border);border-radius:14px;margin:16px 0}
+.fy-table{width:100%;border-collapse:collapse;min-width:620px}
+.fy-table th,.fy-table td{padding:12px 14px;text-align:left;border-bottom:1px solid #edf1eb;font-size:.92rem}
+.fy-table th{background:#edf6ed;color:var(--fy-deep)}
+.fy-table tr:last-child td{border-bottom:0}
+.fy-footer{text-align:center;padding:26px 16px;background:var(--fy-deep);color:#e7f5e9}
+@media(max-width:850px){.fy-grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}.fy-grid-5{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.fy-nav{position:static}.fy-nav nav{gap:10px}.fy-form-grid{grid-template-columns:1fr}.fy-span-2{grid-column:auto}.fy-grid-4,.fy-grid-5{grid-template-columns:1fr 1fr}.fy-inline-form label{min-width:100%}.fy-container{width:min(100% - 22px,1120px);margin-top:18px}}
+
+/* Prediction history summary cards */
+.history-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.history-stat-card {
+  padding: 22px;
+  border: 1px solid rgba(120, 180, 120, 0.25);
+  border-radius: 16px;
+  background: rgba(15, 40, 25, 0.85);
+  min-width: 0;
+}
+
+.history-stat-card p {
+  margin: 0 0 12px;
+  color: #c3d6c7;
+  font-size: 0.9rem;
+}
+
+.history-stat-card h2 {
+  margin: 0;
+  color: #8eea9a;
+  font-size: 1.8rem;
+  overflow-wrap: anywhere;
+}
+
+.history-stat-card small {
+  display: block;
+  margin-top: 6px;
+  color: #c3d6c7;
+}
+
+@media (max-width: 800px) {
+  .history-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 450px) {
+  .history-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Crop Sowing Calendar form layout */
+#sowing-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    align-items: end;
+}
+
+#sowing-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+    font-weight: 600;
+}
+
+#sowing-form input,
+#sowing-form select {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+#sowing-form button {
+    width: fit-content;
+    min-height: 44px;
+}
+
+#sowing-status {
+    margin-top: 16px;
+}
+
+@media (max-width: 650px) {
+    #sowing-form {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Crop Sowing Calendar reminder labels */
+.sowing-reminder-status {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 8px 0;
+}
+
+.sowing-reminder-status.overdue {
+    color: #fecaca;
+    background: #7f1d1d;
+    border: 1px solid #ef4444;
+}
+
+.sowing-reminder-status.due-today {
+    color: #bbf7d0;
+    background: #14532d;
+    border: 1px solid #22c55e;
+}
+
+.sowing-reminder-status.coming-up-soon {
+    color: #fef3c7;
+    background: #78350f;
+    border: 1px solid #f59e0b;
+}
+
+.sowing-reminder-status.scheduled {
+    color: #d1fae5;
+    background: #064e3b;
+    border: 1px solid #10b981;
+}

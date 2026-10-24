@@ -1,0 +1,136 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AgriYield AI | Farming Copilot</title>
+  <link rel="stylesheet" href="assets/css/chatbot.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="index.html">
+        <span class="brand-logo">🌱</span>
+        <span><strong>AgriYield <b>AI</b></strong>
+          <small>SMART FARMING</small></span>
+      </a>
+
+      <button class="new-chat" id="newChat">＋ New chat</button>
+
+      <p class="side-label">YOUR FARM</p>
+      <nav class="nav-links">
+        <a href="index.html">⌂ &nbsp; Dashboard</a>
+        <a href="predict.html">↗ &nbsp; Predict yield</a>
+        <a href="weather.html">☼ &nbsp; Weather</a>
+        <a href="history.html">◷ &nbsp; Prediction history</a>
+      </nav>
+
+      <div class="history-head">
+        <span>Recent chats</span>
+        <button id="clearHistory">Clear</button>
+      </div>
+      <div class="history-list" id="historyList"></div>
+
+      <div class="sidebar-bottom">
+        <label for="chatLanguage">Response language</label>
+        <select id="chatLanguage">
+          <option value="en">English</option>
+          <option value="te">తెలుగు (Telugu)</option>
+          <option value="hi">हिन्दी (Hindi)</option>
+        </select>
+        <div class="account">
+          <span class="account-avatar">🌾</span>
+          <div><strong>AgriYield AI</strong>
+            <small>Your farming assistant</small></div>
+          <i></i>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-title">
+          <button id="openSidebar" class="mobile-menu">☰</button>
+          <div><small>AGRIYIELD AI</small>
+            <h2>Farming Copilot <span class="ready">● Ready</span></h2></div>
+        </div>
+        <div class="top-actions">
+          <button id="weatherButton" class="weather-btn">☁ <span>Ask weather</span></button>
+          <a href="index.html" class="dashboard-link">← Dashboard</a>
+        </div>
+      </header>
+
+      <section class="chat-area" id="chatArea">
+        <div class="welcome" id="welcome">
+          <div class="welcome-mark">🌿</div>
+          <p class="eyebrow">YOUR SMART FARMING ASSISTANT</p>
+          <h1>How can I help<br>your farm grow?</h1>
+          <p class="intro">
+            Ask me about crop yield, soil health, rainfall,
+            irrigation, pests, or everyday farming decisions.
+          </p>
+
+          <div class="prompt-grid">
+            <button class="prompt-card"
+              data-prompt="How can I improve paddy yield?">
+              <span class="prompt-icon mint">↗</span>
+              <span><strong>Improve crop yield</strong>
+                <small>Ideas for a healthier harvest</small></span>
+              <b>→</b>
+            </button>
+            <button class="prompt-card"
+              data-prompt="How should I prepare my soil before sowing?">
+              <span class="prompt-icon sand">♧</span>
+              <span><strong>Soil health</strong>
+                <small>Prepare your field for sowing</small></span>
+              <b>→</b>
+            </button>
+            <button class="prompt-card"
+              data-prompt="Check the weather forecast for Kakinada">
+              <span class="prompt-icon sky">☁</span>
+              <span><strong>Weather forecast</strong>
+                <small>Plan around rain and temperature</small></span>
+              <b>→</b>
+            </button>
+            <button class="prompt-card"
+              data-prompt="How can I identify common crop pests?">
+              <span class="prompt-icon peach">✳</span>
+              <span><strong>Pest management</strong>
+                <small>Learn early warning signs</small></span>
+              <b>→</b>
+            </button>
+          </div>
+          <p class="note">✦ Practical farming guidance, in the language you prefer.</p>
+        </div>
+
+        <div id="messages" class="messages" aria-live="polite"></div>
+        <div id="typing" class="typing" hidden>
+          <span class="bot-avatar">🌱</span>
+          <span class="dots"><i></i><i></i><i></i></span>
+          <small>Thinking…</small>
+        </div>
+      </section>
+
+      <footer class="composer-wrap">
+        <form id="chatForm" class="composer">
+          <textarea id="messageInput" rows="1" maxlength="4000"
+            placeholder="Ask AgriYield AI anything…"></textarea>
+          <div class="composer-bottom">
+            <span class="hint">Enter to send · Shift + Enter for a new line</span>
+            <button id="sendButton" type="submit" aria-label="Send">↑</button>
+          </div>
+        </form>
+        <p class="disclaimer">
+          AI can make mistakes. Confirm important crop, pesticide,
+          and fertilizer decisions with a qualified local expert.
+        </p>
+      </footer>
+    </main>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="assets/js/chatbot.js"></script>
+</body>
+</html>

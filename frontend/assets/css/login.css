@@ -1,0 +1,244 @@
+
+:root {
+    --green: #198754;
+    --green-dark: #126b40;
+    --green-light: #eaf7ef;
+    --text: #20352a;
+    --muted: #6b7c72;
+    --border: #dce8df;
+    --white: #ffffff;
+    --danger: #b42318;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f4f9f5;
+    color: var(--text);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.site-header {
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 7%;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+    font-size: 21px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.brand strong {
+    color: var(--green);
+}
+
+.brand-icon {
+    font-size: 28px;
+}
+
+.header-label {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.auth-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 36px 18px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 460px;
+    padding: 32px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 12px 36px rgba(28, 76, 46, 0.08);
+}
+
+.welcome-icon {
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    margin: 0 auto 16px;
+    background: var(--green-light);
+    border-radius: 50%;
+    font-size: 30px;
+}
+
+h1 {
+    margin: 0;
+    text-align: center;
+    font-size: 25px;
+    line-height: 1.35;
+}
+
+.subtitle {
+    margin: 10px 0 24px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.tab-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding: 5px;
+    margin-bottom: 22px;
+    background: #f0f5f1;
+    border-radius: 10px;
+}
+
+.tab {
+    padding: 11px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--muted);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.tab.active {
+    background: var(--white);
+    color: var(--green-dark);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+h2 {
+    margin: 0 0 20px;
+    font-size: 19px;
+}
+
+form label {
+    display: block;
+    margin: 15px 0 7px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+form input {
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 13px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--white);
+    color: var(--text);
+    font: inherit;
+    outline: none;
+}
+
+form input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.12);
+}
+
+.primary-button {
+    width: 100%;
+    min-height: 46px;
+    margin-top: 20px;
+    padding: 12px 16px;
+    border: 0;
+    border-radius: 9px;
+    background: var(--green);
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.primary-button:hover {
+    background: var(--green-dark);
+}
+
+.primary-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.message {
+    display: none;
+    padding: 11px 13px;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.message.success {
+    display: block;
+    background: var(--green-light);
+    color: var(--green-dark);
+}
+
+.message.error {
+    display: block;
+    background: #fff0ee;
+    color: var(--danger);
+}
+
+.otp-section {
+    padding-top: 8px;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.security-note {
+    margin: 24px 0 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.site-footer {
+    padding: 18px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+@media (max-width: 520px) {
+    .site-header {
+        padding: 14px 18px;
+    }
+
+    .header-label {
+        display: none;
+    }
+
+    .auth-card {
+        padding: 24px 20px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+}

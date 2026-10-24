@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | AgriYield AI</title>
+
+    <link rel="stylesheet" href="assets/css/login.css">
+    <link rel="stylesheet" href="assets/css/forest_glass_features.css">
+    <link rel="stylesheet" href="assets/css/language.css">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="index.html">
+            <span class="brand-icon">🌱</span>
+            <span>AgriYield <strong>AI</strong></span>
+        </a>
+        <span class="header-label">Smart Farming Platform</span>
+    </header>
+
+    <main class="auth-container">
+        <section class="auth-card">
+            <div class="welcome-icon">🌾</div>
+            <h1>Welcome to AgriYield AI</h1>
+            <p class="subtitle">Smart insights for better farming.</p>
+
+            <div class="tab-buttons">
+                <button type="button" id="loginTab" class="tab active">
+                    Login
+                </button>
+                <button type="button" id="registerTab" class="tab">
+                    Register
+                </button>
+            </div>
+
+            <div id="message" class="message"
+                 role="status" aria-live="polite"></div>
+
+            <!-- Login form -->
+            <form id="loginForm">
+                <h2>Login to your account</h2>
+
+                <label for="loginEmail">Email address</label>
+                <input
+                    id="loginEmail"
+                    type="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                    required
+                >
+
+                <label for="loginPassword">Password</label>
+                <input
+                    id="loginPassword"
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    minlength="8"
+                    maxlength="128"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <button type="submit" class="primary-button">
+                    Login
+                </button>
+            </form>
+
+            <!-- Registration form -->
+            <form id="registerForm" hidden>
+                <h2>Create your account</h2>
+
+                <label for="fullName">Full name</label>
+                <input
+                    id="fullName"
+                    type="text"
+                    name="full_name"
+                    minlength="2"
+                    maxlength="100"
+                    placeholder="Your full name"
+                    autocomplete="name"
+                    required
+                >
+
+                <label for="registerEmail">Email address</label>
+                <input
+                    id="registerEmail"
+                    type="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                    required
+                >
+
+                <label for="phoneNumber">Phone number</label>
+                <input
+                    id="phoneNumber"
+                    type="tel"
+                    name="phone_number"
+                    placeholder="+919876543210"
+                    pattern="\+?[0-9]{10,19}"
+                    autocomplete="tel"
+                    required
+                >
+
+                <label for="registerPassword">Create password</label>
+                <input
+                    id="registerPassword"
+                    type="password"
+                    name="password"
+                    minlength="8"
+                    maxlength="128"
+                    placeholder="At least 8 characters"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <label for="confirmPassword">Confirm password</label>
+                <input
+                    id="confirmPassword"
+                    type="password"
+                    minlength="8"
+                    maxlength="128"
+                    placeholder="Enter password again"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <button type="submit" class="primary-button">
+                    Create Account
+                </button>
+            </form>
+
+            <p class="security-note">
+                Keep your password private and secure.
+            </p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        AgriYield AI · Smarter farming, better decisions
+    </footer>
+
+    <script src="assets/js/login.js"></script>
+    <script src="assets/js/language.js"></script>
+</body>
+</html>

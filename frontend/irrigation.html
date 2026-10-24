@@ -1,0 +1,92 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Irrigation Assistant | AgriYield AI</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/farmer_features.css">
+  <link rel="stylesheet" href="assets/css/dark_farm.css">
+  <link rel="stylesheet" href="assets/css/forest_glass_features.css">
+  <link rel="stylesheet" href="assets/css/language.css">
+</head>
+<body>
+  <header class="fy-nav"><a class="fy-brand" href="index.html">🌾 AgriYield AI</a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">Dashboard</a><a href="predict.html">Predict Yield</a><a href="weather.html">Weather</a><a href="irrigation.html" class="active" aria-current="page">Irrigation</a><a href="market.html">Market Prices</a><a href="profit.html">Profit Calculator</a><a href="sowing.html">Sowing Calendar</a><a href="schemes.html">Government Schemes</a><a href="history.html">History</a><a href="weather-alerts.html">Weather Alerts</a><a href="chatbot.html">Agri AI Chatbot</a></nav></header>
+
+  <main class="fy-container">
+    <section class="fy-hero">
+      <p class="fy-eyebrow">WATER MANAGEMENT</p>
+      <h1>Irrigation assistant</h1>
+      <p>Use recent rainfall, forecast rain probability, and measured soil moisture as prompts for a local check.</p>
+    </section>
+
+    <section class="fy-panel">
+      <div class="weather-autofill">
+        <button type="button" id="irrigationAutoFillBtn">
+          Auto-fill from Location
+        </button>
+        <p id="irrigationWeatherStatus" role="status">
+          Click to fetch recent rainfall and the local rain forecast.
+        </p>
+      </div>
+
+      <form id="irrigation-form" class="fy-form-grid">
+        <label>
+          Recent rainfall (mm)
+          <input name="rainfall_mm" type="number" min="0" max="1000"
+                 step="0.1" value="0" required>
+        </label>
+
+        <label>
+          Measured soil moisture (%)
+          <input name="soil_moisture_percent" type="number" min="0"
+                 max="100" step="0.1"
+                 placeholder="Optional — enter a field measurement">
+          <small>Use a sensor reading if available.</small>
+        </label>
+
+        <label>
+          Forecast rain probability (%)
+          <input name="forecast_rain_probability" type="number" min="0"
+                 max="100" step="0.1"
+                 placeholder="Auto-filled from forecast">
+        </label>
+
+        <div class="fy-span-2">
+          <button type="submit">Get guidance</button>
+        </div>
+      </form>
+    </section>
+
+    <div id="irrigation-result" class="fy-status" role="status" aria-live="polite">
+      <div class="fy-panel irrigation-recommendation-card">
+        <p class="fy-eyebrow">YOUR IRRIGATION PLAN</p>
+        <h2>Ready to check your irrigation needs?</h2>
+        <p>Use your recent rainfall, forecast rain probability, and optional measured soil moisture to get guidance.</p>
+      </div>
+    </div>
+
+    <div class="fy-span-2">
+      <p id="soilMoistureEstimate" role="status">
+        Soil moisture estimate will appear after location autofill.
+      </p>
+    </div>
+
+    <p class="fy-note">
+      This is general decision support, not an automatic irrigation prescription.
+      Consider crop stage, soil type, local advice, and field conditions.
+    </p>
+  </main>
+
+  <footer class="fy-footer">
+    AgriYield AI · Farmer decision support
+  </footer>
+
+  <script src="assets/js/farmer_features.js"></script>
+  <script>
+    AgriFeatures.initIrrigation();
+  </script>
+  <script src="assets/js/language.js"></script>
+</body>
+</html>

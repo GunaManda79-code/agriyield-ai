@@ -1,0 +1,296 @@
+/* AgriYield AI — Dark Farm design kit. UI-only overrides; API and prediction JS untouched. */
+:root{--forest:#071c19;--forest2:#0b3029;--leaf:#00d68f;--mint:#0d3d32;--cream:#071512;--ink:#e7f4ef;--muted:#9bb8ad;--line:#1b4038;--shadow:0 18px 55px #0005;--radius:18px;--fy-green:#00c985;--fy-deep:#f6fcfb;--fy-bg:#071512;--fy-card:#0c211d;--fy-text:#e7f4ef;--fy-muted:#9bb8ad;--fy-border:#21443a}
+html{scroll-behavior:smooth}body{background:#071512!important;color:#e7f4ef!important;font-family:Inter,"Segoe UI",system-ui,sans-serif!important;padding-left:248px!important;min-height:100vh}a{color:inherit}.site-header,.fy-nav{position:fixed!important;left:0!important;top:0!important;bottom:0!important;width:248px!important;height:100vh!important;z-index:100!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:24px!important;padding:24px 15px!important;background:linear-gradient(180deg,#061b17f5,#092a23f5),url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=500&q=75") center/cover!important;border-right:1px solid #1e493d!important;border-bottom:0!important;backdrop-filter:blur(18px)!important;overflow-y:auto!important}.site-header:before,.fy-nav:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#041b16f2 0%,#06251ff5 65%,#041a16f8);z-index:-1}.brand,.fy-brand{color:#f3fff9!important;font-size:1.05rem!important;font-weight:900!important;white-space:normal!important}.brand-mark{background:#0d4535!important;color:#00e29a!important}.brand small{color:#7cae9a!important}.main-nav,.fy-nav nav{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:6px!important;width:100%!important}.main-nav a,.fy-nav nav a{display:flex!important;align-items:center!important;gap:10px!important;padding:12px 13px!important;border-radius:11px!important;color:#b5cec4!important;font-size:.88rem!important;font-weight:700!important;white-space:normal!important}.main-nav a:hover,.main-nav a.active,.fy-nav nav a:hover,.fy-nav nav a.active{background:linear-gradient(100deg,#087c55,#07523d)!important;color:#fff!important;box-shadow:0 5px 18px #00c98518!important}.dashboard-shell,.prediction-shell{width:min(1440px,calc(100% - 42px))!important;margin:24px auto 48px!important}.dashboard-hero,.prediction-hero{border:1px solid #285547!important;border-radius:22px!important;background-image:linear-gradient(90deg,#061c18f5 0%,#082b23d9 48%,#08251b78 100%),url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1800&q=85")!important;box-shadow:0 24px 70px #0005!important}.dashboard-hero h1,.prediction-hero h1{color:#f2fff8!important}.dashboard-hero h1 em,.prediction-hero h1 em{color:#00e49a!important}.live-pill{border-color:#3c7764!important;background:#062a22b8!important;color:#baf9df!important}.hero-stat-card{background:#0b2822ed!important;color:#e9fff4!important;border-color:#326552!important}.hero-stat-card small,.panel-kicker{color:#00d994!important}.hero-stat-card strong,.hero-stat-card>b{color:#f2fff8!important}.stat-icon,.round-leaf{background:#123e31!important;color:#00e49a!important}.metric-card,.glass-panel,.tool-card,.prediction-form-panel,.prediction-side article,.prediction-result,.fy-panel,.fy-table-wrap{background:#0b211c!important;border-color:#1e4539!important;color:#e6f5ed!important;box-shadow:0 16px 40px #0003!important}.metric-card strong,.panel-heading h2,.section-heading h2,.quick-link b,.tool-card h3,.prediction-form-panel h2,.prediction-side h3,.fy-panel h2,.fy-panel h3{color:#f0fff7!important}.metric-card small,.metric-card p,.panel-heading p,.section-heading p,.quick-link small,.tool-card p,.stat-caption,.chart-legend,.chart-foot,.fy-note{color:#9bb8ad!important}.metric-green,.metric-blue,.metric-amber,.quick-icon,.tool-card-icon{background:#123c30!important;color:#5bf0b2!important}.quick-panel{background:linear-gradient(145deg,#0b211c,#0d2a22)!important}.quick-link{border-color:#1c4035!important}.quick-note,.dashboard-disclaimer{background:#102e25!important;border-color:#1e4b3c!important;color:#b7d7c9!important}.tool-card:before{background:#123b2e!important;opacity:.85}.tool-card:hover{box-shadow:0 22px 45px #0006!important}.yield-chart{background:repeating-linear-gradient(to bottom,transparent 0,transparent 48px,#19382f 49px,#19382f 50px)!important}.chart-foot{border-color:#1d4035!important}.prediction-hero{min-height:300px!important}.prediction-form-panel label,.field-block label{color:#cfe4d9!important}.prediction-form-panel input,.prediction-form-panel select,.fy-inline-form input,.fy-inline-form select,.fy-form-grid input,.fy-form-grid select,.fy-form-grid textarea{background:#071a16!important;border-color:#285144!important;color:#e8fff5!important}.prediction-form-panel input:focus,.prediction-form-panel select:focus{outline:2px solid #00c985!important}.button-primary,.submit-prediction,button{background:linear-gradient(100deg,#00b879,#00d994)!important;color:#032219!important}.button-primary:hover,button:hover{filter:brightness(1.08)}.button-light{background:#e8fff4!important;color:#063b2a!important}.button-glass{background:#05271f99!important;border-color:#7bbba3!important;color:white!important}.site-footer,.fy-footer{background:#041a16!important;color:#9bb8ad!important;border-top:1px solid #1c4035!important}.fy-container{width:min(1200px,calc(100% - 40px))!important;margin:30px auto!important}.fy-nav+.fy-container{margin-top:30px!important}.fy-hero{background:linear-gradient(100deg,#0c3a2b,#0b211c)!important;border:1px solid #285144!important;color:#effff7!important}.fy-hero h1,.fy-hero h2,.fy-hero p{color:#effff7!important}.fy-eyebrow{color:#00d994!important}.fy-grid>*,.fy-grid-4>*,.fy-grid-5>*{background:#0b211c!important;border-color:#1e4539!important;color:#e7f4ef!important;box-shadow:0 14px 34px #0003!important}.fy-table{color:#e7f4ef!important}.fy-table th{background:#12372c!important;color:#baf8dc!important}.fy-table td{border-color:#1c4035!important}.fy-table tr:nth-child(even){background:#0d2821!important}.fy-alert{background:#342b13!important;border-color:#6c5a22!important;color:#f9e7a4!important}.fy-button-secondary{background:#153b2f!important;color:#d8f7e7!important}.fy-status{color:#b5d4c5!important}.fy-footer{margin-top:38px!important}
+@media(max-width:900px){body{padding-left:0!important;padding-top:74px!important}.site-header,.fy-nav{right:0!important;bottom:auto!important;width:100%!important;height:auto!important;min-height:68px!important;flex-direction:row!important;align-items:center!important;padding:10px 14px!important;gap:12px!important}.main-nav,.fy-nav nav{flex-direction:row!important;overflow-x:auto!important;white-space:nowrap!important;gap:4px!important}.main-nav a,.fy-nav nav a{flex:0 0 auto!important;padding:9px 11px!important}.brand,.fy-brand{flex:0 0 auto!important}.dashboard-shell,.prediction-shell{width:calc(100% - 24px)!important;margin:14px auto 30px!important}.dashboard-main-grid{grid-template-columns:1fr!important}.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:560px){body{padding-top:108px!important}.site-header,.fy-nav{align-items:flex-start!important;flex-direction:column!important}.main-nav,.fy-nav nav{width:100%!important}.dashboard-metrics{grid-template-columns:1fr!important}.tool-grid{grid-template-columns:1fr!important}.dashboard-hero,.prediction-hero{padding:25px!important;min-height:360px!important}.hero-stat-card{display:none!important}.fy-container{width:calc(100% - 20px)!important}.fy-grid-4,.fy-grid-5{grid-template-columns:1fr 1fr!important}}
+
+/* Dashboard live location weather widget */
+.dashboard-weather{margin:24px 0;padding:24px;background:linear-gradient(135deg,rgba(11,43,35,.96),rgba(7,25,25,.98));border:1px solid rgba(70,150,116,.25);border-radius:22px;color:#eefbf5;box-shadow:0 16px 36px rgba(0,0,0,.15)}
+.weather-panel-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}.weather-panel-heading h2{margin:5px 0 4px;font-size:clamp(1.25rem,2vw,1.7rem)}.weather-panel-heading p{margin:0;color:#a8c9bc;font-size:.9rem}.weather-retry-button{border:1px solid rgba(91,219,165,.45);background:rgba(21,117,81,.25);color:#c8ffe5;border-radius:12px;padding:11px 15px;font:inherit;font-weight:700;cursor:pointer}.weather-retry-button:hover{background:rgba(21,160,104,.35)}.dashboard-weather-content{display:grid;grid-template-columns:minmax(180px,.9fr) minmax(240px,1.1fr);gap:14px}.weather-current-card,.weather-stat,.weather-day{background:rgba(255,255,255,.045);border:1px solid rgba(174,226,202,.12);border-radius:16px}.weather-current-card{display:flex;align-items:center;gap:18px;padding:20px}.weather-big-icon{font-size:3.2rem;filter:drop-shadow(0 6px 12px rgba(0,0,0,.2))}.weather-current-card small,.weather-stat small{display:block;color:#92bca9;font-size:.7rem;letter-spacing:.08em;font-weight:800}.weather-temperature{display:block;font-size:2.5rem;line-height:1.2;color:#eafff4}.weather-current-card p{margin:4px 0;color:#d5f3e5}.weather-current-card span{font-size:.8rem;color:#a8c9bc}.weather-stat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.weather-stat{padding:16px 12px;display:flex;flex-direction:column;justify-content:center;gap:8px}.weather-stat>span{font-size:1.2rem}.weather-stat strong{font-size:1.15rem;color:#edfff5}.weather-forecast{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:2px}.weather-forecast-title{grid-column:1/-1;color:#a8c9bc;font-weight:800;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}.weather-day{display:flex;flex-direction:column;align-items:center;gap:7px;padding:14px 8px;text-align:center}.weather-day>span:first-child{color:#c0ded0;font-size:.8rem}.weather-day-icon{font-size:1.45rem}.weather-day strong{font-size:1.1rem}.weather-day small{font-size:.68rem;color:#a8c9bc}.weather-privacy-note{margin:14px 0 0;color:#85a99a;font-size:.75rem;line-height:1.5}.weather-loading{min-height:120px;display:flex;align-items:center;justify-content:center;gap:12px;color:#b8d7c9;background:rgba(255,255,255,.035);border-radius:16px}.weather-loader{width:22px;height:22px;border:2px solid rgba(88,224,161,.25);border-top-color:#4ce6a1;border-radius:50%;animation:weather-spin .8s linear infinite}@keyframes weather-spin{to{transform:rotate(360deg)}}.weather-fallback{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:20px;border:1px solid rgba(255,194,110,.2);background:rgba(255,194,110,.05);border-radius:16px}.weather-fallback-icon{font-size:2rem}.weather-fallback p{margin:6px 0 10px;color:#b6d1c4}.weather-manual-link{color:#61e6ad;font-weight:800;text-decoration:none}.weather-manual-link:hover{text-decoration:underline}
+@media(max-width:760px){.dashboard-weather{padding:17px}.weather-panel-heading{align-items:flex-start;flex-direction:column}.dashboard-weather-content{grid-template-columns:1fr}.weather-forecast{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}.weather-day{padding:11px 3px}.weather-day small{font-size:.6rem}.weather-stat{padding:12px 8px}}
+
+/* Fix text visibility on dark weather cards */
+.fy-panel,
+.fy-grid,
+.fy-grid-4,
+.fy-grid-5 {
+    color: #E8FFF5;
+}
+
+.fy-grid h1,
+.fy-grid h2,
+.fy-grid h3,
+.fy-grid strong,
+.fy-grid b,
+.fy-grid p,
+.fy-grid span,
+.fy-grid div {
+    color: #E8FFF5;
+}
+
+/* Make weather values stand out */
+#weather-current,
+#weather-daily {
+    color: #F0FFF8;
+}
+
+#weather-current strong,
+#weather-daily strong {
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+/* Keep secondary descriptions readable */
+.fy-note,
+.fy-status {
+    color: #B8D8CC;
+}
+
+
+/* ===== Dark Farm: Prediction Form Visibility Fix ===== */
+
+/* Form panels and cards */
+#predictionForm,
+.prediction-form,
+.prediction-card,
+.form-card,
+.fy-panel {
+    background: #0B211B !important;
+    color: #F0FFF7 !important;
+    border: 1px solid #214C3D !important;
+}
+
+/* Headings and labels */
+#predictionForm h1,
+#predictionForm h2,
+#predictionForm h3,
+#predictionForm label,
+.prediction-form label,
+.prediction-card label,
+.form-card label,
+.fy-panel label {
+    color: #E7FFF2 !important;
+}
+
+/* Inputs, dropdowns and text areas */
+#predictionForm input,
+#predictionForm select,
+#predictionForm textarea,
+.prediction-form input,
+.prediction-form select,
+.prediction-form textarea,
+.fy-panel input,
+.fy-panel select,
+.fy-panel textarea {
+    background-color: #102D24 !important;
+    color: #FFFFFF !important;
+    border: 1px solid #376B55 !important;
+}
+
+/* Dropdown options */
+#predictionForm select option,
+.fy-panel select option {
+    background: #102D24;
+    color: #FFFFFF;
+}
+
+/* Placeholder text */
+#predictionForm input::placeholder,
+#predictionForm textarea::placeholder,
+.fy-panel input::placeholder,
+.fy-panel textarea::placeholder {
+    color: #A9C7B9 !important;
+    opacity: 1;
+}
+
+/* Helper text */
+#predictionForm small,
+#predictionForm .form-text,
+.fy-panel small,
+.fy-panel .form-text {
+    color: #B8D8CC !important;
+}
+
+/* Numbered section and field labels */
+label {
+    color: #DDF7E9;
+}
+
+/* Keep entered values readable */
+input,
+select,
+textarea {
+    caret-color: #00E5A0;
+}
+
+
+/* ===== Dark Farm: Remove White Prediction Form ===== */
+
+/* Main prediction page content and outer form card */
+body:has(#predictionForm) main,
+body:has(#predictionForm) .container,
+body:has(#predictionForm) .prediction-wrapper,
+body:has(#predictionForm) .prediction-card,
+body:has(#predictionForm) .form-card {
+    background: #071A15 !important;
+    color: #E9FFF4 !important;
+}
+
+/* Main white panel visible around the form */
+body:has(#predictionForm) #predictionForm {
+    background: #0B211B !important;
+    color: #E9FFF4 !important;
+    border: 1px solid #214C3D !important;
+    border-radius: 18px !important;
+    padding: 24px !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+/* Inner sections and dividers */
+body:has(#predictionForm) #predictionForm section,
+body:has(#predictionForm) #predictionForm .form-section,
+body:has(#predictionForm) #predictionForm .card-body {
+    background: transparent !important;
+    color: #E9FFF4 !important;
+}
+
+body:has(#predictionForm) #predictionForm hr {
+    border-color: #285343 !important;
+}
+
+/* Section headings and labels */
+body:has(#predictionForm) #predictionForm h1,
+body:has(#predictionForm) #predictionForm h2,
+body:has(#predictionForm) #predictionForm h3,
+body:has(#predictionForm) #predictionForm label {
+    color: #E9FFF4 !important;
+}
+
+/* Form controls */
+body:has(#predictionForm) #predictionForm input,
+body:has(#predictionForm) #predictionForm select,
+body:has(#predictionForm) #predictionForm textarea {
+    background: #102D24 !important;
+    color: #FFFFFF !important;
+    border: 1px solid #376B55 !important;
+}
+
+body:has(#predictionForm) #predictionForm input::placeholder,
+body:has(#predictionForm) #predictionForm textarea::placeholder {
+    color: #A9C7B9 !important;
+    opacity: 1;
+}
+
+/* Help text */
+body:has(#predictionForm) #predictionForm small,
+body:has(#predictionForm) #predictionForm .form-text {
+    color: #B8D8CC !important;
+}
+
+
+
+/* Fix dark text in the prediction result card */
+#resultCard,
+#resultCard h1,
+#resultCard h2,
+#resultCard h3,
+#resultCard p,
+#resultCard span,
+#resultCard strong,
+#resultCard small,
+#resultCard div {
+    color: #F2FFF8 !important;
+}
+
+/* Make the predicted yield value bright and visible */
+#resYield {
+    color: #FFFFFF !important;
+    font-weight: 800 !important;
+}
+
+/* Keep the unit and crop name readable */
+#resCrop {
+    color: #B9F6D5 !important;
+    font-weight: 700 !important;
+}
+
+/* Preserve bright green links and action text */
+#resultCard a {
+    color: #00E5A0 !important;
+}
+
+/* Keep the result card itself in the Dark Farm theme */
+#resultCard {
+    background: #0B211B !important;
+    border: 1px solid #24513F !important;
+}
+
+
+/* Prediction result: force readable Dark Farm colors */
+#resultCard.card.bg-success-subtle {
+    background-color: #0B211B !important;
+    color: #F2FFF8 !important;
+    border-color: #24513F !important;
+}
+
+#resultCard.card.bg-success-subtle h4,
+#resultCard.card.bg-success-subtle p,
+#resultCard.card.bg-success-subtle strong,
+#resultCard.card.bg-success-subtle span {
+    color: #F2FFF8 !important;
+}
+
+#resultCard.card.bg-success-subtle h4.text-success {
+    color: #FFFFFF !important;
+}
+
+#resultCard #resCrop,
+#resultCard #resYield,
+#resultCard #resUnit {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+}
+
+.weather-autofill {
+    margin: 12px 0 20px;
+}
+
+.weather-autofill button {
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 600;
+}
+
+.weather-autofill p {
+    margin: 8px 0 0;
+    font-size: 13px;
+    color: #a9c9b5;
+}
+
+
+/* Government Schemes dashboard card */
+.tool-schemes {
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  background: linear-gradient(
+    135deg,
+    rgba(16, 90, 59, 0.92),
+    rgba(8, 40, 31, 0.96)
+  );
+}
+
+.tool-schemes .tool-card-icon {
+  background: rgba(52, 211, 153, 0.16);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+}
+
+.tool-schemes h3 {
+  color: #e1ffed;
+}
+
+.tool-schemes p {
+  color: #c5e5d4;
+}
+
+.tool-schemes b {
+  color: #6ee7b7;
+}
