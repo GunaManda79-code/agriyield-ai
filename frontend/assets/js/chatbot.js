@@ -2,7 +2,7 @@
 (() => {
   "use strict";
 
-  const API_BASE = "http://127.0.0.1:8001/api";
+  const API_BASE = "/api";
   const CHAT_ENDPOINT = `${API_BASE}/chat`;
   const WEATHER_ENDPOINT = `${API_BASE}/weather`;
   const LANGUAGE_KEY = "agriYieldChatLanguage";
