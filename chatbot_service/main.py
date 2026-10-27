@@ -1,65 +1,102 @@
 
 import logging
 import os
-import asyncio
-import json
-
+from datetime import datetime, timezone
 from pathlib import Path
-from urllib.parse import urlencode
-from urllib.request import urlopen
+from typing import Optional
 
+import httpx
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from openai import AsyncOpenAI
 from pydantic import BaseModel, Field
-from typing import Literal
-from auth_system import router as auth_router
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy.orm import Session
+
+# Load the main website environment before importing its authentication.
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+CHATBOT_DIR = Path(__file__).resolve().parent
+
+load_dotenv(PROJECT_ROOT / ".env", override=False)
+load_dotenv(CHATBOT_DIR / ".env", override=False)
+
+from backend.database import Base, engine, get_db
+from backend.models import User
+from backend.security import get_current_user
 
 
-# ============================================
-# CONFIGURATION
-# ============================================
+# --------------------------------------------------
+# Configuration
+# --------------------------------------------------
 
-BASE_DIR = Path(__file__).resolve().parent
-ENV_FILE = BASE_DIR / ".env"
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# Load environment variables from chatbot_service/.env
-load_dotenv(dotenv_path=ENV_FILE, override=False)
+OLLAMA_API_KEY = os.getenv("OLLAMA_API_KEY", "").strip()
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "gemma4:31b").strip()
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+ollama_client = (
+    AsyncOpenAI(
+        api_key=OLLAMA_API_KEY,
+        base_url="https://ollama.com/v1",
+        timeout=45,
+        max_retries=1,
+    )
+    if OLLAMA_API_KEY
+    else None
 )
 
-logger = logging.getLogger("agriyield.chatbot")
 
-# Ollama Cloud configuration
-API_KEY = os.getenv("OLLAMA_API_KEY", "").strip()
-MODEL = os.getenv("OLLAMA_MODEL", "gemma4:31b").strip()
+# --------------------------------------------------
+# Chat history tables
+# These use the SAME database as the main website.
+# --------------------------------------------------
 
-if not API_KEY:
-    raise RuntimeError(
-        f"OLLAMA_API_KEY is missing. Check this file: {ENV_FILE}"
+class Chat(Base):
+    __tablename__ = "chatbot_chats"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    title = Column(String(150), nullable=False, default="New conversation")
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        index=True,
     )
 
-client = AsyncOpenAI(
-    api_key=API_KEY,
-    base_url="https://ollama.com/v1",
-    timeout=45.0,
-    max_retries=1,
-)
+
+class ChatMessage(Base):
+    __tablename__ = "chatbot_chat_messages"
+
+    id = Column(Integer, primary_key=True, index=True)
+    chat_id = Column(
+        Integer,
+        ForeignKey("chatbot_chats.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    role = Column(String(20), nullable=False)
+    content = Column(Text, nullable=False)
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
 
-# ============================================
-# FASTAPI APPLICATION
-# ============================================
+# Create only missing tables; existing website tables are retained.
+Base.metadata.create_all(bind=engine)
 
-app = FastAPI(
-    title="AgriYield AI Farming Copilot",
-    version="2.1.0",
-    description="Multilingual agricultural assistant API",
-)
+
+# --------------------------------------------------
+# FastAPI app and CORS
+# --------------------------------------------------
+
+app = FastAPI(title="AgriYield AI Chatbot")
 
 app.add_middleware(
     CORSMiddleware,
@@ -72,300 +109,321 @@ app.add_middleware(
         "http://localhost:8001",
     ],
     allow_credentials=False,
-    allow_methods=["GET", "POST", "OPTIONS"],
-    allow_headers=["Content-Type"],
+    allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
 )
 
-app.include_router(auth_router)
-# ============================================
-# REQUEST MODELS
-# ============================================
 
-Language = Literal["en", "te", "hi"]
-
+# --------------------------------------------------
+# Request models
+# --------------------------------------------------
 
 class ChatRequest(BaseModel):
-    message: str = Field(min_length=1, max_length=2000)
-    language: Language = "en"
+    message: str = Field(..., min_length=1, max_length=10000)
+    language: str = "English"
+    chat_id: Optional[int] = None
 
 
 class WeatherRequest(BaseModel):
-    location: str = Field(min_length=1, max_length=100)
-    language: Language = "en"
+    location: str = Field(..., min_length=1, max_length=150)
+    language: str = "English"
 
 
-# ============================================
-# LANGUAGE SETTINGS
-# ============================================
+# --------------------------------------------------
+# Helpers
+# --------------------------------------------------
 
-LANGUAGE_NAMES = {
-    "en": "English",
-    "te": "Telugu",
-    "hi": "Hindi",
-}
-
-
-# ============================================
-# OPEN-METEO WEATHER HELPERS
-# ============================================
-
-def get_json(url: str, params: dict) -> dict:
-    """Fetch JSON from a public weather API."""
-    query = urlencode(params)
-    request_url = f"{url}?{query}"
-
-    with urlopen(request_url, timeout=12) as response:
-        return json.loads(response.read().decode("utf-8"))
+def get_owned_chat(db: Session, chat_id: int, user_id: int) -> Chat:
+    chat = (
+        db.query(Chat)
+        .filter(Chat.id == chat_id, Chat.user_id == user_id)
+        .first()
+    )
+    if not chat:
+        raise HTTPException(status_code=404, detail="Conversation not found.")
+    return chat
 
 
-async def fetch_json(url: str, params: dict) -> dict:
-    """Run the blocking HTTP request outside the event loop."""
-    return await asyncio.to_thread(get_json, url, params)
+def format_datetime(value):
+    return value.isoformat() if value else None
 
 
-# ============================================
-# HEALTH CHECK
-# ============================================
+def get_system_prompt(language: str) -> str:
+    return f"""
+You are AgriYield AI, a helpful agricultural assistant for farmers.
+
+Respond in {language}, using simple and practical language.
+Help with crop selection, soil, rainfall, weather, irrigation,
+fertilizers, pests, and general farming practices.
+Give safe, realistic advice. Do not invent live weather information,
+guaranteed crop yields, or exact market prices.
+For chemical treatments, advise users to follow local agricultural
+expert guidance and product labels.
+Explain that crop-yield predictions are estimates, not guarantees.
+"""
+
+
+# --------------------------------------------------
+# Health
+# --------------------------------------------------
 
 @app.get("/")
-async def root():
-    return {
-        "service": "AgriYield AI Farming Copilot",
-        "status": "running",
-        "docs": "/docs",
-    }
+def root():
+    return {"message": "AgriYield AI Chatbot is running"}
 
 
 @app.get("/api/health")
-async def health():
+def health():
     return {
-        "status": "ok",
+        "status": "healthy",
         "service": "AgriYield AI Chatbot",
-        "provider": "ollama-cloud",
-        "languages": ["en", "te", "hi"],
-        "model": MODEL,
+        "ai_configured": ollama_client is not None,
     }
 
 
-# ============================================
-# CHAT ENDPOINT - OLLAMA CLOUD
-# ============================================
+# --------------------------------------------------
+# Chat history API
+# All routes require the MAIN website login token.
+# --------------------------------------------------
+
+@app.get("/api/chats")
+def list_chats(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    chats = (
+        db.query(Chat)
+        .filter(Chat.user_id == current_user.id)
+        .order_by(Chat.updated_at.desc(), Chat.id.desc())
+        .all()
+    )
+
+    return {
+        "chats": [
+            {
+                "id": chat.id,
+                "title": chat.title,
+                "created_at": format_datetime(chat.created_at),
+                "updated_at": format_datetime(chat.updated_at),
+            }
+            for chat in chats
+        ]
+    }
+
+
+@app.get("/api/chats/{chat_id}")
+def get_chat_history(
+    chat_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    chat = get_owned_chat(db, chat_id, current_user.id)
+
+    messages = (
+        db.query(ChatMessage)
+        .filter(ChatMessage.chat_id == chat.id)
+        .order_by(ChatMessage.id.asc())
+        .all()
+    )
+
+    return {
+        "id": chat.id,
+        "title": chat.title,
+        "messages": [
+            {
+                "id": message.id,
+                "role": message.role,
+                "content": message.content,
+                "created_at": format_datetime(message.created_at),
+            }
+            for message in messages
+        ],
+    }
+
+
+@app.delete("/api/chats/{chat_id}")
+def delete_chat(
+    chat_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    chat = get_owned_chat(db, chat_id, current_user.id)
+
+    db.query(ChatMessage).filter(
+        ChatMessage.chat_id == chat.id
+    ).delete(synchronize_session=False)
+
+    db.delete(chat)
+    db.commit()
+
+    return {"success": True, "chat_id": chat_id}
+
+
+# --------------------------------------------------
+# AI chat API
+# A new database conversation is created when chat_id
+# is absent. Existing chats are checked for ownership.
+# --------------------------------------------------
 
 @app.post("/api/chat")
-async def chat(request: ChatRequest):
-    message = request.message.strip()
+async def chat(
+    request: ChatRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    message_text = request.message.strip()
 
-    if not message:
+    if not message_text:
+        raise HTTPException(status_code=400, detail="Please enter a message.")
+
+    if not ollama_client:
         raise HTTPException(
-            status_code=422,
-            detail="Message cannot be empty.",
+            status_code=503,
+            detail="AI service is not configured. Check OLLAMA_API_KEY.",
         )
 
-    language_name = LANGUAGE_NAMES[request.language]
+    new_chat = request.chat_id is None
 
-    system_prompt = f"""
-You are AgriYield AI, a helpful agricultural assistant
-for Indian farmers.
-
-LANGUAGE:
-Always answer in {language_name}.
-Understand regional language expressions, spelling
-variations, and mixed-language questions.
-
-YOUR EXPERTISE:
-- Crop selection and crop management
-- Crop yield improvement
-- Soil health and soil testing
-- Irrigation and water management
-- Rainfall and weather information
-- Pest and plant disease management
-- Fertilizer safety and responsible use
-- Government agricultural schemes
-- Farming practices and harvest planning
-
-RESPONSE STYLE:
-- Be friendly, practical, and easy to understand.
-- Use short paragraphs and numbered steps when useful.
-- Ask follow-up questions when important information
-  such as crop, location, or growth stage is missing.
-- Adapt suggestions to Indian farming conditions.
-- Avoid unnecessary technical jargon.
-
-SAFETY AND ACCURACY:
-- Do not invent live weather, market prices, or scheme dates.
-- Do not claim to have checked live information unless
-  it was actually retrieved.
-- Recommend soil testing before specific fertilizer decisions.
-- For pesticide advice, recommend following the product label
-  and consulting a qualified local agricultural expert.
-- Do not claim a plant disease is certain without sufficient
-  evidence.
-- Clearly state uncertainty where appropriate.
-"""
+    if new_chat:
+        chat_record = Chat(
+            user_id=current_user.id,
+            title=message_text[:47] + ("…" if len(message_text) > 47 else ""),
+        )
+        db.add(chat_record)
+        db.flush()
+    else:
+        chat_record = get_owned_chat(db, request.chat_id, current_user.id)
 
     try:
-        logger.info(
-            "Chat request received: language=%s, message_length=%s",
-            request.language,
-            len(message),
-        )
-
-        response = await client.chat.completions.create(
-            model=MODEL,
+        response = await ollama_client.chat.completions.create(
+            model=OLLAMA_MODEL,
             messages=[
                 {
                     "role": "system",
-                    "content": system_prompt,
+                    "content": get_system_prompt(request.language),
                 },
                 {
                     "role": "user",
-                    "content": message,
+                    "content": message_text,
                 },
             ],
+            temperature=0.4,
         )
 
-        answer = (
-            response.choices[0].message.content or ""
-        ).strip()
+        answer = (response.choices[0].message.content or "").strip()
 
         if not answer:
-            logger.error("Ollama Cloud returned an empty response.")
+            raise RuntimeError("The AI returned an empty response.")
 
-            raise HTTPException(
-                status_code=502,
-                detail=(
-                    "The AI returned an empty response. "
-                    "Please try again."
+        db.add_all(
+            [
+                ChatMessage(
+                    chat_id=chat_record.id,
+                    role="user",
+                    content=message_text,
                 ),
-            )
+                ChatMessage(
+                    chat_id=chat_record.id,
+                    role="assistant",
+                    content=answer,
+                ),
+            ]
+        )
 
-        logger.info("Ollama Cloud response generated successfully.")
+        chat_record.updated_at = datetime.now(timezone.utc)
+        db.commit()
 
         return {
             "reply": answer,
+            "chat_id": chat_record.id,
             "language": request.language,
             "mode": "ollama-cloud",
         }
 
-    except HTTPException:
-        raise
-
     except Exception as exc:
-        # Details stay in the backend terminal.
-        # Never return credentials or internal exception details.
-        logger.exception(
-            "Ollama Cloud request failed. Exception type: %s",
-            type(exc).__name__,
-        )
+        db.rollback()
+        logger.exception("Chat request failed")
+
+        if isinstance(exc, HTTPException):
+            raise
 
         raise HTTPException(
             status_code=502,
-            detail=(
-                "The AI service could not complete your request. "
-                "Check the chatbot backend terminal for details."
-            ),
+            detail="The AI could not respond right now. Please try again.",
         ) from exc
 
 
-# ============================================
-# WEATHER ENDPOINT - OPEN-METEO
-# ============================================
+# --------------------------------------------------
+# Real-time weather API
+# --------------------------------------------------
 
 @app.post("/api/weather")
-async def weather(request: WeatherRequest):
+async def get_weather(request: WeatherRequest):
     location = request.location.strip()
 
-    if not location:
-        raise HTTPException(
-            status_code=422,
-            detail="Please provide a village or city name.",
-        )
-
     try:
-        # Find the location using Open-Meteo geocoding.
-        geo_data = await fetch_json(
-            "https://geocoding-api.open-meteo.com/v1/search",
-            {
-                "name": location,
-                "count": 1,
-                "language": request.language,
-                "format": "json",
-            },
-        )
-
-        results = geo_data.get("results") or []
-
-        if not results:
-            raise HTTPException(
-                status_code=404,
-                detail="Location not found. Try a nearby town or city.",
+        async with httpx.AsyncClient(timeout=15) as client:
+            geo_response = await client.get(
+                "https://geocoding-api.open-meteo.com/v1/search",
+                params={"name": location, "count": 1, "language": "en"},
             )
+            geo_response.raise_for_status()
+            geo_data = geo_response.json()
 
-        place = results[0]
+            results = geo_data.get("results") or []
+            if not results:
+                raise HTTPException(
+                    status_code=404,
+                    detail="Location not found. Try a nearby town or city.",
+                )
 
-        # Retrieve current conditions and a three-day forecast.
-        forecast = await fetch_json(
-            "https://api.open-meteo.com/v1/forecast",
-            {
-                "latitude": place["latitude"],
-                "longitude": place["longitude"],
-                "current": (
-                    "temperature_2m,"
-                    "relative_humidity_2m,"
-                    "precipitation,"
-                    "rain,"
-                    "wind_speed_10m"
-                ),
-                "daily": (
-                    "temperature_2m_max,"
-                    "temperature_2m_min,"
-                    "precipitation_probability_max"
-                ),
-                "forecast_days": 3,
-                "timezone": "auto",
-            },
-        )
+            place = results[0]
 
-        current = forecast.get("current", {})
+            weather_response = await client.get(
+                "https://api.open-meteo.com/v1/forecast",
+                params={
+                    "latitude": place["latitude"],
+                    "longitude": place["longitude"],
+                    "current": (
+                        "temperature_2m,relative_humidity_2m,"
+                        "apparent_temperature,is_day,precipitation,"
+                        "weather_code,wind_speed_10m"
+                    ),
+                    "daily": "precipitation_probability_max",
+                    "forecast_days": 1,
+                    "timezone": "auto",
+                },
+            )
+            weather_response.raise_for_status()
+            weather_data = weather_response.json()
+
+        current = weather_data.get("current", {})
+        daily = weather_data.get("daily", {})
 
         return {
             "location": ", ".join(
-                item
-                for item in [
-                    place.get("name"),
-                    place.get("admin1"),
-                    place.get("country"),
-                ]
-                if item
+                part for part in [place.get("name"), place.get("admin1"), place.get("country")]
+                if part
             ),
-            "current": current,
-            "daily": forecast.get("daily", {}),
-            "units": {
-                "temperature": forecast.get(
-                    "current_units", {}
-                ).get("temperature_2m", "°C"),
-                "wind": forecast.get(
-                    "current_units", {}
-                ).get("wind_speed_10m", "km/h"),
-                "precipitation": forecast.get(
-                    "current_units", {}
-                ).get("precipitation", "mm"),
-            },
+            "temperature_c": current.get("temperature_2m"),
+            "feels_like_c": current.get("apparent_temperature"),
+            "humidity_percent": current.get("relative_humidity_2m"),
+            "precipitation_mm": current.get("precipitation"),
+            "wind_speed_kmh": current.get("wind_speed_10m"),
+            "weather_code": current.get("weather_code"),
+            "rain_probability_percent": (
+                daily.get("precipitation_probability_max", [None])[0]
+            ),
+            "time": current.get("time"),
+            "language": request.language,
+            "source": "Open-Meteo",
         }
 
     except HTTPException:
         raise
-
     except Exception as exc:
-        logger.exception(
-            "Weather request failed. Exception type: %s",
-            type(exc).__name__,
-        )
-
+        logger.exception("Weather request failed")
         raise HTTPException(
             status_code=502,
-            detail=(
-                "Weather information is temporarily unavailable. "
-                "Please try again."
-            ),
+            detail="Weather information is temporarily unavailable.",
         ) from exc

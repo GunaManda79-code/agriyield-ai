@@ -335,4 +335,3 @@ def delete_chat(
     db.commit()
 
     return {"message": "Chat deleted."}
-
