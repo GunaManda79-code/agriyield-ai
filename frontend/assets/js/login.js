@@ -1,6 +1,7 @@
 
 const API_BASE = "http://127.0.0.1:8000/api/auth";
 
+
 const loginForm = document.getElementById("loginForm");
 const registerForm = document.getElementById("registerForm");
 const loginTab = document.getElementById("loginTab");
