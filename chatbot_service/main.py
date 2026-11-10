@@ -36,6 +36,7 @@ logger = logging.getLogger(__name__)
 OLLAMA_API_KEY = os.getenv("OLLAMA_API_KEY", "").strip()
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "gemma4:31b").strip()
 
+""""
 ollama_client = (
     AsyncOpenAI(
         api_key=OLLAMA_API_KEY,
@@ -45,6 +46,16 @@ ollama_client = (
     )
     if OLLAMA_API_KEY
     else None
+)
+"""
+
+OLLAMA_MODEL = "qwen2.5:0.5b"
+
+ollama_client = AsyncOpenAI(
+    api_key="ollama",
+    base_url="http://127.0.0.1:11434/v1",
+    timeout=120,
+    max_retries=1
 )
 
 
