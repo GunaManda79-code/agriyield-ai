@@ -28,9 +28,44 @@ from backend.schemas.auth import (
     OTPVerifyRequest,
 )
 
-from pwdlib import PasswordHash
+import hashlib
+import hmac
+import secrets
 
-password_hasher = PasswordHash.recommended()
+# Demo-friendly password hashing using Python's standard library.
+# No native Argon2 DLL is required.
+_PASSWORD_HASH_ITERATIONS = 310_000
+
+
+def hash_password(password: str) -> str:
+    salt = secrets.token_hex(16)
+    digest = hashlib.pbkdf2_hmac(
+        "sha256",
+        password.encode("utf-8"),
+        bytes.fromhex(salt),
+        _PASSWORD_HASH_ITERATIONS,
+    ).hex()
+    return f"pbkdf2_sha256${_PASSWORD_HASH_ITERATIONS}${salt}${digest}"
+
+
+def verify_password(password: str, stored_hash: str) -> bool:
+    try:
+        algorithm, iterations_text, salt, expected_digest = stored_hash.split("$", 3)
+        if algorithm != "pbkdf2_sha256":
+            # Existing Argon2 hashes cannot be checked on this Windows system.
+            return False
+        iterations = int(iterations_text)
+        if iterations < 1 or iterations > 2_000_000:
+            return False
+        actual_digest = hashlib.pbkdf2_hmac(
+            "sha256",
+            password.encode("utf-8"),
+            bytes.fromhex(salt),
+            iterations,
+        ).hex()
+        return hmac.compare_digest(actual_digest, expected_digest)
+    except (ValueError, TypeError):
+        return False
 
 @router.get("/health")
 def auth_health():
@@ -75,7 +110,7 @@ def register_user(
         full_name=full_name,
         email=email,
         phone_number=phone_number,
-        password_hash=password_hasher.hash(data.password),
+        password_hash=hash_password(data.password),
         email_verified=False,
         phone_verified=False,
         is_active=True,
@@ -475,7 +510,7 @@ def login_user(
             detail="This account needs a password setup before login.",
         )
 
-    if not password_hasher.verify(data.password, user.password_hash):
+    if not verify_password(data.password, user.password_hash):
         raise HTTPException(
             status_code=401,
             detail="Invalid email or password.",

@@ -24,3 +24,4 @@ Thumbs.db
 # Generated files
 .pytest_cache/
 .mypy_cache/
+.venv_new/

@@ -16,3 +16,4 @@ email-validator
 pwdlib[argon2]
 aiosmtplib
 openai
+pwdlib[argon2]
