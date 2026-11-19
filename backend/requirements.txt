@@ -18,3 +18,4 @@ email-validator
 pwdlib[argon2]
 aiosmtplib
 openai
+PyMySQL>=1.1.0
