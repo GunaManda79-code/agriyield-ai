@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   logoutButton.addEventListener("click", () => {
     sessionStorage.removeItem("agriYieldDemoUser");
+    sessionStorage.removeItem("agriYieldAccessToken");
+
     window.location.href = "login.html";
-  });
+});
 });
